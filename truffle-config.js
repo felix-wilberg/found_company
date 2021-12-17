@@ -73,9 +73,8 @@ module.exports = {
     // }
   },
 
-  contracts_directory: './src/backEnd/contracts/',
-  contracts_build_directory: './src/backEnd/abis/',
-  migrations_directory: './src/backEnd/migrations/',
+  contracts_directory: './src/contracts/',
+  contracts_build_directory: './src/abis/',
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
