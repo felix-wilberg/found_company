@@ -3,8 +3,6 @@ import React, { Component} from "react";
 import "./App.css";
 import { Main } from "./Main";
 
-
-
 class App extends Component{
   constructor(props) {
     super(props);
@@ -45,6 +43,7 @@ class App extends Component{
       return (
           <>
             <Main drizzle={this.props.drizzle} drizzleState={this.state.drizzleState} />
+              <div></div>
           </>
       );
     }
