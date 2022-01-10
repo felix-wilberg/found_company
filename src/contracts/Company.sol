@@ -9,7 +9,7 @@ contract Company {
         uint256 amount;
     }
 
-    mapping(uint256 => Member) internal members;
+    mapping(uint256 => Member[]) internal members;
 
     string[] public company;
 
@@ -35,7 +35,8 @@ contract Company {
         emit Receive(msg.value, msg.sender);
         Member memory newMember;
         newMember.member = msg.sender;
-
+        //hier fehlt noch was
     }
+
 
 }
