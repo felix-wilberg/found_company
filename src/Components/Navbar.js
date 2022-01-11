@@ -38,7 +38,7 @@ export class Navbar extends React.Component {
                                 <MDBNavbarItem>
                                     <MDBNavbarLink href='#'>About</MDBNavbarLink>
                                 </MDBNavbarItem>
-                                <MDBNavbarItem>
+                                <MDBNavbarItem className= 'ml-auto'>
                                     <MDBBtn>MetaMask</MDBBtn>
                                 </MDBNavbarItem>
                             </MDBNavbarNav>
