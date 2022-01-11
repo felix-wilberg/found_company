@@ -6,6 +6,7 @@ import {
     MDBNavbarLink,
     MDBNavbarToggler,
     MDBContainer,
+    MDBBtn,
     MDBIcon } from 'mdb-react-ui-kit';
 
 export class Navbar extends React.Component {
@@ -13,7 +14,7 @@ export class Navbar extends React.Component {
         return (
             <header>
                 <MDBNavbar expand='lg' light bgColor='white'>
-                    <MDBContainer fluid>
+                    <MDBContainer >
                         <MDBNavbarToggler
                             aria-controls='navbarExample01'
                             aria-expanded='false'
@@ -36,6 +37,9 @@ export class Navbar extends React.Component {
                                 </MDBNavbarItem>
                                 <MDBNavbarItem>
                                     <MDBNavbarLink href='#'>About</MDBNavbarLink>
+                                </MDBNavbarItem>
+                                <MDBNavbarItem>
+                                    <MDBBtn>MetaMask</MDBBtn>
                                 </MDBNavbarItem>
                             </MDBNavbarNav>
                         </div>
