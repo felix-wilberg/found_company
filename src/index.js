@@ -1,12 +1,10 @@
 import React from "react";
-// import { Drizzle } from "@drizzle/store";
-//import { DrizzleContext } from '@drizzle/react-plugin'
 import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.css'
 import App from "./Components/App.js";
-// import drizzleOptions from './drizzleOptions'
+import * as serviceWorker from './serviceWorker';
 
 
-//const drizzle = new Drizzle(drizzleOptions);
-//ReactDOM.render(<App drizzle={drizzle}/>, document.getElementById("root"));
 ReactDOM.render(<App />, document.getElementById("root"));
+serviceWorker.unregister();
+

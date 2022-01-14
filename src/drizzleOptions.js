@@ -1,23 +1,19 @@
-import Company from './contracts/Company.sol'
+import Web3 from "web3";
+//import Company from './contracts/Company.sol'
+// import ComplexStorage from "./contracts/ComplexStorage.json";
+import SimpleStorage from "./contracts/SimpleStorage.sol";
+// import TutorialToken from "./contracts/TutorialToken.json";
 
 
 const drizzleOptions = {
-/*    web3: {
+    web3: {
         block: false,
-        fallback: {
-            type: 'ws',
-            url: 'ws://127.0.0.1:7545'
-        }
-    },*/
-    contracts: [
-        Company
-    ],
-    events: {
-        Company: ["CompanySet"],
+        customProvider: new Web3("ws://localhost:7545"),
     },
-    polls: {
-        accounts: 1500
-    }
-}
+    contracts: SimpleStorage,
+    events: {
+        SimpleStorage: ["StorageSet"]
+    },
+};
 
-export default drizzleOptions
+export default drizzleOptions;

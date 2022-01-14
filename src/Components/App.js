@@ -1,55 +1,43 @@
-import React, { Component} from "react";
-
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import { Main } from "./Main";
-
-class App extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      drizzleState: null
-    };
-  }
+import Main from "./Main";
+import SimpleStorage from "../abis/SimpleStorage.json";
+import { MDBBtn} from "mdb-react-ui-kit";
+import Navbar from "./Navbar";
 
 
-/*  componentDidMount = () => {
-    const {drizzle} = this.props;
-    this.unsubscribe = drizzle.store.subscribe(() => {
-      const drizzleStates = drizzle.store.getState();
-
-      if(drizzleStates.drizzleStatus.initialized) {
-        this.setState({
-          loading: false,
-          drizzleState: drizzleStates
-        });
-      }
-    });
-  }*/
-
-  componentWillUnmount = () => {
-    this.unsubscribe();
-  }
-
-  render(){
-/*    if(this.state.loading) {
-      return (
-          <div className="alert alert-info" role="alert">
-            <h4 className="alert-heading">Drizzle Status</h4>
-            <p>Loading...</p>
-          </div>
-      );
-    } else {*/
-      return (
-          <>
-            <Main drizzle={this.props.drizzle} drizzleState={this.state.drizzleState} />
-              <div></div>
-          </>
-      );
-    }
 
 
- // }
+
+function App(){
+
+
+    const connectWalletHandler = () => { }
+
+
+    const checkWalletIsConnected = () => { }
+
+
+
+    const mintNftHandler = () => { }
+
+
+
+    useEffect( () => {
+            checkWalletIsConnected();
+        },[],
+    )
+
+
+    return (
+        <>
+            <Navbar
+
+                onConnectWalletHandler={connectWalletHandler}
+            />
+            <Main />
+        </>
+    );
 }
 
 export default App;
