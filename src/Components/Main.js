@@ -1,15 +1,13 @@
 import React from 'react';
-import Navbar  from "./Navbar";
 import Form from "./Form";
 import ContractOverview from './ContractOverview';
 import { MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
 
 
 
-export default function Main(props){
+export default function Main(){
     return(
         <div>
-
             <MDBContainer>
                 <div className='p-5 mt-5 text-center bg-light'>
                     <MDBRow>

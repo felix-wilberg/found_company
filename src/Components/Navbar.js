@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+import ConnectWalletButton from './ConnectWalletButton'
 import {
     MDBNavbar,
     MDBNavbarNav,
@@ -9,9 +10,12 @@ import {
     MDBBtn,
     MDBIcon } from 'mdb-react-ui-kit';
 
-export default function Navbar({onConnectWalletHandler}) {
-    const [address, setAddress] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+// in case it is needed, uncomment
+// import {useStore} from "./App";
+
+
+
+export default function Navbar() {
 
     return (
         <header>
@@ -41,9 +45,7 @@ export default function Navbar({onConnectWalletHandler}) {
                                 <MDBNavbarLink href='#'>About</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem className= 'ml-auto'>
-                                <MDBBtn onClick={onConnectWalletHandler} className='cta-button connect-wallet-button'>
-                                    {isLoggedIn ?  'Your Account:' + {address} : 'Connect Wallet'}
-                                </MDBBtn>
+                                <ConnectWalletButton />
                             </MDBNavbarItem>
                         </MDBNavbarNav>
                     </div>
