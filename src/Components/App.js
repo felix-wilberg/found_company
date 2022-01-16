@@ -37,6 +37,7 @@ function App(){
             const account = accounts[0];
             console.log("Found an authorized account:", account);
             useStore.setState({currentAccount: accounts[0]})
+            useStore.setState({isLoggedIn: true})
         } else {
             console.log("No authorized account found.")
         }
