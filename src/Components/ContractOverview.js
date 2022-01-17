@@ -8,7 +8,7 @@ export default function ContractOverview(){
                 <MDBRow size>
                     <MDBCol size='12'>
                         <div className='text-center'>
-                            <h2>Gesellschaftervertrag XY</h2>
+                            <h2 className='mb-5'>Gesellschaftervertrag XY</h2>
                         </div>
                     </MDBCol>
                     <MDBCol size='6'>
@@ -52,10 +52,12 @@ export default function ContractOverview(){
                         <div>Status</div>
                         <MDBCheckbox name='disabledCheck' value='' id='flexCheckDisabled' disabled label='unterzeichnet' />
                         <MDBCheckbox name='disabledCheck' value='' id='flexCheckCheckedDisabled' defaultChecked disabled label='in Bearbeitung' />
-                        <MDBIcon className='mt-5' fas icon="download" />
-                        <MDBBtn>Vertrag herunterladen</MDBBtn>
-                        <MDBIcon fab icon="ethereum" />
+                        <MDBIcon className='mt-5 mr-3' fas icon="download" />
+                        <MDBBtn>Vertrag herunterladen</MDBBtn><br/><br/>
+                        <MDBIcon fab icon="ethereum" className='mr-3'/>
                         <MDBBtn>Einzahlen</MDBBtn>
+
+
                     </MDBCol>
 
                 </MDBRow>
