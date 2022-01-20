@@ -3,15 +3,15 @@ import Form from "./Form";
 import ContractOverview from './ContractOverview';
 import FoundingProgress from './FoundingProgress';
 import Footer from './Footer';
-import HeroSection from './HeroSection';
-import { MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
+// import HeroSection from './HeroSection';
+import { MDBContainer, } from 'mdb-react-ui-kit';
 
 
 
 export default function Main(){
     return(
         <div>
-            <HeroSection />
+            {/* <HeroSection /> */}
             <MDBContainer className='pt-5'>
                 <div className='mb-5 text-center'>
                     <h2 className='mt-5 mb-3'>Gesellschaftervertrag aufsetzen</h2>

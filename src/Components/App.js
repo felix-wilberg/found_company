@@ -1,6 +1,7 @@
 import React, { useEffect} from "react";
 import create from "zustand";
 import "./App.css";
+import HeroSection from "./HeroSection";
 import Main from "./Main";
 // import SimpleStorage from "../abis/SimpleStorage.json";
 //import { MDBBtn} from "mdb-react-ui-kit";
@@ -50,6 +51,7 @@ function App(){
     return (
         <>
             <Navbar />
+            <HeroSection />
             <Main />
         </>
     );
