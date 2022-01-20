@@ -41,9 +41,10 @@ export default function Form() {
     }*/
 
     return (
+        <div>
         <MDBContainer>
             <form>
-                <MDBRow className='mb-5'>
+                <MDBRow>
                     <MDBCol>
                         <MDBInput label="Firmenname" id='form1' type='text' />
                         <MDBInput label="Firmensitz" id='text' type='text' />
@@ -60,5 +61,7 @@ export default function Form() {
                 </MDBRow>
             </form>
         </MDBContainer>
+        </div>
+
     );
 }

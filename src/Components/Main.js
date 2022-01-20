@@ -11,7 +11,7 @@ import { MDBContainer, } from 'mdb-react-ui-kit';
 export default function Main(){
     return(
         <div>
-            {/* <HeroSection /> */}
+            <div id='SectionPlatinum'>
             <MDBContainer className='pt-5'>
                 <div className='mb-5 text-center'>
                     <h2 className='mt-5 mb-3'>Gesellschaftervertrag aufsetzen</h2>
@@ -19,15 +19,12 @@ export default function Main(){
                 </div>
                 <Form />
             </MDBContainer>
-            <MDBContainer>
-                <div className='p-5 mt-5 text-center'>
-                    <h2 className='mt-5 mb-3'>
-                        Übersicht Gesellschaftervertrag
-                    </h2>
-                </div>
-            </MDBContainer> 
+            </div>
+            <div id='SectionOpal'>
             <ContractOverview />
             <FoundingProgress />
+            </div>
+
             <Footer />
         </div>
 

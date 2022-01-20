@@ -4,7 +4,7 @@ import { MDBContainer, MDBInput, MDBRow, MDBIcon, MDBCol, MDBCheckbox, MDBBtn } 
 export default function ContractOverview(){
     return (
         <MDBContainer>
-            <div className='p-5 bg-light'>
+            <div className='p-5' >
                 <MDBRow size>
                     <MDBCol size='12'>
                         <div className='text-center'>

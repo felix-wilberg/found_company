@@ -5,9 +5,6 @@ import {MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit'
 export default function HeroSection() {
     return (
         <div id='HeroSection'>
-            <video id='background-video' autoPlay loop muted>
-                <source src="background.mp4" type='video/mp4'></source>
-            </video>
         <MDBContainer className='pt-5 pb-5'>
             <div className='p-5 mt-5 text-center' id='test'>
                 <MDBRow className='pt-5 pb-5'>

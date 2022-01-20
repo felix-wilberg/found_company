@@ -1,7 +1,6 @@
 .App {
   margin: 1rem;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: grey;
 }
 .cta-button {
   padding: 5px;
@@ -15,22 +14,25 @@
 #HeroSection {
   height: 100vh;
   justify-content: center;
+  background-color: #BED8D4;
 }
 
 #nav {
   height: 80px;
-  background: #494947;
+  background: #E5E9EC;
 }
 
 #NavLink {
-  color: white;
+  color: grey;
 }
 
-#background-video {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: -1;
+#SectionOpal {
+  background-color: #BED8D4;
+  height: 100vh;
+}
+
+#SectionPlatinum {
+  background-color: #E5E9EC;
+  height: 100vh;
+  justify-content: center;
 }
