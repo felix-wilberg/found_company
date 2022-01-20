@@ -12,3 +12,25 @@
   cursor: pointer;
 }
 
+#HeroSection {
+  height: 100vh;
+  justify-content: center;
+}
+
+#nav {
+  height: 80px;
+  background: #494947;
+}
+
+#NavLink {
+  color: white;
+}
+
+#background-video {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}

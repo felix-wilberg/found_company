@@ -18,7 +18,7 @@ export default function Navbar() {
 
     return (
         <header>
-            <MDBNavbar expand='lg' light bgColor='white'>
+            <MDBNavbar id='nav' expand='lg' light >
                 <MDBContainer >
                     <MDBNavbarToggler
                         aria-controls='navbarExample01'
@@ -30,18 +30,18 @@ export default function Navbar() {
                     <div className='collapse navbar-collapse' id='navbarExample01'>
                         <MDBNavbarNav right className='mb-2 mb-lg-0'>
                             <MDBNavbarItem active>
-                                <MDBNavbarLink aria-current='page' href='#'>
+                                <MDBNavbarLink id='NavLink' aria-current='page' href='#'>
                                     Home
                                 </MDBNavbarLink>
                             </MDBNavbarItem>
-                            <MDBNavbarItem>
-                                <MDBNavbarLink href='#'>Features</MDBNavbarLink>
+                            <MDBNavbarItem> 
+                                <MDBNavbarLink id='NavLink' href='#'>Features</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem>
-                                <MDBNavbarLink href='#'>Pricing</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='#'>Pricing</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem>
-                                <MDBNavbarLink href='#'>About</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='#'>About</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem className= 'ml-auto'>
                                 <ConnectWalletButton />

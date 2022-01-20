@@ -4,7 +4,7 @@ import { MDBContainer, MDBInput, MDBRow, MDBIcon, MDBCol, MDBCheckbox, MDBBtn } 
 export default function ContractOverview(){
     return (
         <MDBContainer>
-            <div className='m-5 p-5 bg-light'>
+            <div className='p-5 bg-light'>
                 <MDBRow size>
                     <MDBCol size='12'>
                         <div className='text-center'>
@@ -48,7 +48,9 @@ export default function ContractOverview(){
                             readonly
                         />
                     </MDBCol>
-                    <MDBCol>
+                    <MDBCol size='1'>
+                    </MDBCol>
+                    <MDBCol size='5'>
                         <div>Status</div>
                         <MDBCheckbox name='disabledCheck' value='' id='flexCheckDisabled' disabled label='unterzeichnet' />
                         <MDBCheckbox name='disabledCheck' value='' id='flexCheckCheckedDisabled' defaultChecked disabled label='in Bearbeitung' />
