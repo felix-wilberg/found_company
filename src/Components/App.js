@@ -6,6 +6,7 @@ import Main from "./Main";
 // import SimpleStorage from "../abis/SimpleStorage.json";
 //import { MDBBtn} from "mdb-react-ui-kit";
 import Navbar from "./Navbar";
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 
 //All states are saved within this store
