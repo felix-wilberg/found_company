@@ -3,7 +3,7 @@ import { MDBContainer, MDBTable, MDBTableBody, MDBTableHead } from "mdb-react-ui
 
 export default function FoundingProgress(){
     return (
-        <MDBContainer className="pb-5">
+        <MDBContainer className="pb-5 pt-5">
             <h2 className="mt-5 mb-5 text-center">Gründungsprozess</h2>
             <MDBTable>
             <MDBTableHead>

@@ -46,14 +46,15 @@ export default function Form() {
             <form>
                 <MDBRow>
                     <MDBCol>
-                        <MDBInput label="Firmenname" id='form1' type='text' />
-                        <MDBInput label="Firmensitz" id='text' type='text' />
-                        <MDBInput label="Geschäftsführer" id='text' type='text' />
-                        <MDBInput label="Anteile" id='text' type='text' />
+                        <MDBInput className='mb-3' label="Firmenname" id='text' type='text' />
+                        <MDBInput className='mb-3' label="Firmensitz" id='text' type='text' />
+                        <MDBInput className='mb-3' label="Geschäftsführer" id='text' type='text' />
+                        <MDBInput className='mb-3' label="Anteile" id='text' type='text' />
+
                     </MDBCol>
                     <MDBCol>
-                        <MDBInput label="Stammkapital" id='text' type='number' />
-                        <MDBInput label="Gegenstand der Firma" id='textarea' textarea rows={4} />
+                        <MDBInput className='mb-3' label="Stammkapital" id='text' type='number' />
+                        <MDBInput className='mb-3' label="Gegenstand der Firma" id='textarea' textarea rows={3} />
 
                         <MDBBtn type='submit'>Bestätigen</MDBBtn>
 

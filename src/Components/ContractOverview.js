@@ -12,40 +12,42 @@ export default function ContractOverview(){
                         </div>
                     </MDBCol>
                     <MDBCol size='6'>
-                        <MDBInput
-                            label='Contract Adress'
+                        <label>Contract Address</label>
+                        <MDBInput className='mb-3'
+                            label='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
                             placeholder='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
                             id='formControlReadOnly'
                             type='text'
-                            readonly
+                            disabled
                         />
-                        <MDBInput
-                            label= 'Kontostand'
+                        <label>
+                            Kontostand
+                        </label>
+                        <MDBInput className='mb-3'
+                            label= '10.75 ETH'
                             placeholder='10.75 ETH'
                             id='formControlReadOnly'
                             type='text'
-                            readonly
+                            disabled
                         />
-                        <MDBInput className='mb-1'
-                                  label= ''
-                                  placeholder='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
+                        <label>Gesellschafter</label>
+                        <MDBInput className='mb-3'
+                                  label='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
                                   id='formControlReadOnly'
                                   type='text'
-                                  readonly
+                                  disabled
                         />
-                        <MDBInput className='mb-1'
-                                  label= ''
-                                  placeholder='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
+                        <MDBInput className='mb-3'
+                                  label='0x29D7d1dd5B6f9C864d9db560D72a247c178aE86B'
                                   id='formControlReadOnly'
                                   type='text'
-                                  readonly
+                                  disabled
                         />
                         <MDBInput
-                            label= 'Gesellschafter'
-                            placeholder='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
-                            id='formControlReadOnly'
-                            type='text'
-                            readonly
+                                label='0xcaD621da75a66c7A8f4FF86D30A2bF981Bfc8FdD'
+                                id='formControlReadOnly'
+                                type='text'
+                                disabled
                         />
                     </MDBCol>
                     <MDBCol size='1'>

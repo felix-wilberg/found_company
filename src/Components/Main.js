@@ -22,9 +22,10 @@ export default function Main(){
             </div>
             <div id='SectionOpal'>
             <ContractOverview />
+            </div>
+            <div id='SectionPlatinum'>
             <FoundingProgress />
             </div>
-
             <Footer />
         </div>
 
