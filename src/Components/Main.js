@@ -15,7 +15,7 @@ export default function Main(){
             <MDBContainer className='pt-5'>
                 <div className='mb-5 text-center'>
                     <h2 className='mt-5 mb-3'>Gesellschaftervertrag aufsetzen</h2>
-                    <p className='p-3'>Zur Erstellung Ihres Gesellschaftervertrags benötigen wir einige Informationen. Bitte füllen Sie das unten stehende Formular aus.</p>
+                    <p className='p-3'>Zur Erstellung des Gesellschaftervertrags benötigen wir einige Informationen. Bitte fülle das unten stehende Formular aus.</p>
                 </div>
                 <Form />
             </MDBContainer>
