@@ -18,7 +18,7 @@ export default function Navbar() {
 
     return (
         <header>
-            <MDBNavbar id='nav' expand='lg' light >
+            <MDBNavbar fixed='top' id='nav' expand='lg' light >
                 <MDBContainer >
                     <MDBNavbarToggler
                         aria-controls='navbarExample01'

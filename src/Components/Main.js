@@ -11,7 +11,7 @@ import { MDBContainer, } from 'mdb-react-ui-kit';
 export default function Main(){
     return(
         <div>
-            <div id='SectionPlatinum'>
+            <div id='SectionTwo'>
             <MDBContainer className='pt-5'>
                 <div className='mb-5 text-center'>
                     <h2 className='mt-5 mb-3'>Gesellschaftervertrag aufsetzen</h2>
@@ -20,10 +20,10 @@ export default function Main(){
                 <Form />
             </MDBContainer>
             </div>
-            <div id='SectionOpal'>
+            <div id='SectionOne'>
             <ContractOverview />
             </div>
-            <div id='SectionPlatinum'>
+            <div id='SectionTwo'>
             <FoundingProgress />
             </div>
             <Footer />

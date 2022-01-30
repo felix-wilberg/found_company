@@ -26,13 +26,14 @@
   color: grey;
 }
 
-#SectionOpal {
+#SectionOne {
   background-color: #E2E2F3;
   height: 100vh;
 }
 
-#SectionPlatinum {
+#SectionTwo {
   background-color: #E5E9EC;
   height: 100vh;
   justify-content: center;
 }
+
