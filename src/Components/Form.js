@@ -1,5 +1,5 @@
 import React from 'react';
-import {ethers} from "ethers";
+// import {ethers} from "ethers";
 import { MDBCol, MDBContainer, MDBInput, MDBRow, MDBBtn } from 'mdb-react-ui-kit';
 //contract importieren
 

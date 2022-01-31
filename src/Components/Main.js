@@ -1,8 +1,6 @@
 import React from 'react';
 import Form from "./Form";
-import ContractOverview from './ContractOverview';
-import FoundingProgress from './FoundingProgress';
-import Footer from './Footer';
+import {ContractOverview, FoundingProgress, Footer}  from './index'
 // import HeroSection from './HeroSection';
 import { MDBContainer, } from 'mdb-react-ui-kit';
 
