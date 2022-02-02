@@ -2,7 +2,7 @@ import React from "react";
 import {MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit'
 
 
-export default function HeroSection() {
+const HeroSection= () => {
     return (
         <div id='HeroSection'>
         <MDBContainer className='pt-5 pb-5'>
@@ -21,3 +21,4 @@ export default function HeroSection() {
         </div>
     );
 }
+export default HeroSection;

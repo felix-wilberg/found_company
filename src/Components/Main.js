@@ -1,12 +1,10 @@
 import React from 'react';
-import Form from "./Form";
-import {ContractOverview, FoundingProgress, Footer}  from './index'
-// import HeroSection from './HeroSection';
+import {ContractOverview, FoundingProgress, Footer, Form}  from './index'
 import { MDBContainer, } from 'mdb-react-ui-kit';
 
 
 
-export default function Main(){
+const Main = () => {
     return(
         <div>
             <div id='SectionTwo'>
@@ -29,3 +27,5 @@ export default function Main(){
 
         );
 }
+
+export default Main;

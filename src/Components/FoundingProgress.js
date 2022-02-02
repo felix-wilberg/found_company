@@ -1,7 +1,7 @@
 import React from "react";
 import { MDBContainer, MDBTable, MDBTableBody, MDBTableHead } from "mdb-react-ui-kit";
 
-export default function FoundingProgress(){
+const FoundingProgress =() => {
     return (
         <MDBContainer className="pb-5 pt-5">
             <h2 className="mt-5 mb-5 text-center">Gründungsprozess</h2>
@@ -35,3 +35,5 @@ export default function FoundingProgress(){
 
     );
 }
+
+export default FoundingProgress;

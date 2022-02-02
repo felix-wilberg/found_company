@@ -205,4 +205,17 @@ contract Company {
     function getMembers(uint256 companyId) external view returns  (address[] memory) {
         return(memberAddresses[companyId]);
     }
+
+    function getAllCompanies() external view returns (string[] memory) {
+        return company;
+    }
+
+    function getMyCompany() external view returns (string memory) {
+        uint256 companyId = addressMember[msg.sender].companyId;
+        return names[companyId];
+    }
+    function getCompanyBalance() external view returns (uint256) {
+        uint256 companyId = addressMember[msg.sender].companyId;
+        return payedCapital[companyId];
+    }
 }

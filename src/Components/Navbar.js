@@ -9,12 +9,10 @@ import {
     MDBContainer,
     MDBIcon } from 'mdb-react-ui-kit';
 
-// in case it is needed, uncomment
-// import {useStore} from "./App";
 
 
 
-export default function Navbar() {
+const Navbar = () => {
 
     return (
         <header>
@@ -53,3 +51,4 @@ export default function Navbar() {
         </header>
     );
 }
+export default Navbar;

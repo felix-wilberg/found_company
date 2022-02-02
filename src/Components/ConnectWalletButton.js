@@ -3,9 +3,7 @@ import {useStore} from "./App";
 
 
 const ConnectWalletButton = () => {
-
     const currentAccount = useStore(state => state.currentAccount)
-    console.log(currentAccount);
     const isLoggedIn = useStore(state => state.isLoggedIn)
 
     const connectWalletHandler = async () => {
@@ -17,7 +15,10 @@ const ConnectWalletButton = () => {
         try {
             const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
             useStore.setState({currentAccount: accounts[0]})
+            //setCurrentAccount(accounts[0]);
+            //setIsLoggedIn(true);
             useStore.setState({isLoggedIn: true})
+
             console.log("Found account! Address: ", accounts[0]);
         }
         catch (err) {

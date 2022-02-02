@@ -1,7 +1,32 @@
 import React from 'react';
 import { MDBContainer, MDBInput, MDBRow, MDBIcon, MDBCol, MDBCheckbox, MDBBtn } from 'mdb-react-ui-kit';
+import { contractABI, contractAddress } from "../utils/constants";
+import {ethers} from "ethers";
+import {useStore} from "./App";
 
-export default function ContractOverview(){
+
+const ContractOverview = () => {
+
+    const companyName = useStore(state => state.companyName)
+    const companyBalance = useStore(state => state.companyBalance)
+
+    const getMyBalance = async () => {
+        console.log("Button wurde geklickt.")
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const companyContract = new ethers.Contract(contractAddress, contractABI, provider);
+        const signer = await provider.getSigner();
+        // const signerAddress = await signer.getAddress();
+        const companyName = await companyContract.getMyCompany();
+        useStore.setState({companyName: companyName})
+        const companyBalance = await companyContract.getCompanyBalance();
+        useStore.setState({companyBalance: companyBalance.toString()})
+
+        useStore.setState({balanceInfo: [{companyId: 5, balance: 5, address: "jdnj"}]})
+    };
+
+
+
     return (
         <MDBContainer>
             <div className='p-5' >
@@ -14,18 +39,26 @@ export default function ContractOverview(){
                     <MDBCol size='6'>
                         <label>Contract Address</label>
                         <MDBInput className='mb-3'
-                            label='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
-                            placeholder='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
+                            label={contractAddress}
+                            placeholder= {contractAddress}
                             id='formControlReadOnly'
                             type='text'
                             disabled
+                        />
+                        <label>Company Name</label>
+                        <MDBInput className='mb-3'
+                                  label={companyName}
+                                  placeholder= {companyName}
+                                  id='formControlReadOnly'
+                                  type='text'
+                                  disabled
                         />
                         <label>
                             Kontostand
                         </label>
                         <MDBInput className='mb-3'
-                            label= '10.75 ETH'
-                            placeholder='10.75 ETH'
+                            label= {companyBalance}
+                            placeholder= {companyBalance}
                             id='formControlReadOnly'
                             type='text'
                             disabled
@@ -60,6 +93,7 @@ export default function ContractOverview(){
                         <MDBBtn>Vertrag herunterladen</MDBBtn><br/><br/>
                         <MDBIcon fab icon="ethereum" className='mr-3'/>
                         <MDBBtn>Einzahlen</MDBBtn>
+                        <button onClick={getMyBalance} className='btn connect-wallet-button btn-primary'>Company Info laden </button>
 
 
                     </MDBCol>
@@ -71,3 +105,4 @@ export default function ContractOverview(){
 
     );
 }
+export default ContractOverview;
