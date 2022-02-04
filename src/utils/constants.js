@@ -2,4 +2,4 @@ import abi from "../abis/Company.json";
 
 //Once deployed, contact address needs to be updated
 export const contractABI = abi.abi;
-export const contractAddress = "0xDe8e55506413AA10A464C554a80625a15a3C06Ab";
+export const contractAddress = "0x247D1eFE41868337A346A1FA12A1B478fc30f246";

@@ -8,19 +8,27 @@ import {overrides} from "tailwindcss/prettier.config";
 
 const ContractOverview = () => {
 
-    const companyName = useStore((state)  => state.companyName)
-    const companyBalance = useStore((state)  => state.companyBalance)
-    const companyMembers = useStore((state)  => state.companyMembers)
-    const contract = useStore((state)  => state.contractSigner)
+    const companyName = useStore((state)  => state.companyName);
+    const companyBalance = useStore((state)  => state.companyBalance);
+    const companyMembers = useStore((state)  => state.companyMembers);
+    const contractSigner = useStore((state)  => state.contractSigner);
+    const contractProvider = useStore((state)  => state.contractProvider);
 
-    const getCompanyInfo = async () => {
+    const getCompanyInfo = async (e) => {
+        e.preventDefault();
         console.log("Company Info Button wurde geklickt.")
-        const companyName = await contract.getMyCompany();
-        useStore.setState({companyName: companyName});
-        const companyBalance = await contract.getCompanyBalance();
-        useStore.setState({companyBalance: companyBalance.toString()});
-        const companyMembers = [] = await contract.getMembers(0);
-        useStore.setState({companyMembers: companyMembers});
+        const getCompany = new FormData(e.target);
+        try{
+            const companyName = await contractProvider.getMyCompanyById(getCompany.get("companyId-2"));
+            useStore.setState({companyName: companyName});
+            const companyBalance = await contractProvider.getCompanyBalanceById(getCompany.get("companyId-2"));
+            useStore.setState({companyBalance: companyBalance.toString()});
+            const companyMembers = [] = await contractProvider.getMembers(getCompany.get("companyId-2"));
+            useStore.setState({companyMembers: companyMembers});
+        } catch (error) {
+            alert(error);
+        }
+
     };
 
     const payShare = async (e) => {
@@ -32,7 +40,7 @@ const ContractOverview = () => {
         //check if all needed fields are filled
         if (!share.get("amountToPay") || !share.get("amountToPay")) {alert("Bitte fülle das Formular aus."); return;}
         //execute found company function, if company already exists, throw error alert
-        try { await contract.payShare(share.get("amountToPay"), {value: share.get("amountToPay")});}
+        try { await contractSigner.payShare(share.get("amountToPay"), {value: share.get("amountToPay")});}
         catch (error) {
             alert(error);
         }
@@ -113,7 +121,10 @@ const ContractOverview = () => {
                             <MDBBtn type='submit'>Einzahlen</MDBBtn><br/><br/>
                         </form>
                         <MDBIcon icon="address-card" className='mr-3'/>
-                        <MDBBtn onClick={getCompanyInfo} >Company Info laden </MDBBtn>
+                        <form onSubmit={getCompanyInfo}>
+                            <MDBInput className='mb-3' label='Company ID' placeholder="Company ID" name="companyId-2" type='number'  />
+                            <MDBBtn type='submit' >Company Info laden </MDBBtn>
+                        </form>
 
 
                     </MDBCol>

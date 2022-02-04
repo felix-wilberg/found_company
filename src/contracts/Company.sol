@@ -142,6 +142,7 @@ contract Company {
         return(1);
     }
 
+    //internal function to calculate the return amount
     function calcReturnAmount(address returnAddress, uint256 companyId) internal view returns(uint256){
         uint256 returnMoney = 0;
         if (addressMember[returnAddress].amount < payedCapital[companyId]/memberAmount[companyId]){
@@ -152,6 +153,7 @@ contract Company {
         return returnMoney;
     }
 
+    //internal function to remove the address from mapping array
     function removeFromMemberAddresses(uint256 companyId, address removeAddress) internal {
         uint i = 0;
         while (memberAddresses[companyId][i] != removeAddress) {
@@ -161,7 +163,6 @@ contract Company {
             memberAddresses[companyId][i] = memberAddresses[companyId][i+1];
             i++;
         }
-        //memberAddresses[companyId].length --; // not needed cause of dynamic array
     }
 
     //transfer function
@@ -172,7 +173,7 @@ contract Company {
 
 
     //every of the members need to run this function
-    function dissolveCopany(uint256 companyId) external {
+    function dissolveCompany(uint256 companyId) public {
         require(memberOfCertainCompany[companyId][msg.sender] = true, 'Address is not member of any company.');
         require(companyExists[names[companyId]] = true, 'company does not exist');
         //ob msg.sender ist der letzte
@@ -210,12 +211,14 @@ contract Company {
         return company;
     }
 
-    function getMyCompany() external view returns (string memory) {
-        uint256 companyId = addressMember[msg.sender].companyId;
+    function getMyCompanyById(uint256 companyId) external view returns (string memory) {
+        string memory compName = names[companyId];
+        require(companyExists[compName] == true, "no company with this ID");
         return names[companyId];
     }
-    function getCompanyBalance() external view returns (uint256) {
-        uint256 companyId = addressMember[msg.sender].companyId;
+    function getCompanyBalanceById(uint256 companyId) external view returns (uint256) {
+        string memory compName = names[companyId];
+        require(companyExists[compName] == true, "no company with this ID");
         return payedCapital[companyId];
     }
 }
