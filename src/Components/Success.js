@@ -1,7 +1,7 @@
 import React from 'react';
 import {useStore} from "./App";
 
-
+//this component will be displayed once  a company was successfully founded
 
 const Success = () => {
     const companyInfo = useStore((state) => state.companyInfo);

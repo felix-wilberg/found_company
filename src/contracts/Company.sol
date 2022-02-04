@@ -172,7 +172,7 @@ contract Company {
 
 
     //every of the members need to run this function
-    function dissolveCopany(uint256 companyId) public {
+    function dissolveCopany(uint256 companyId) external {
         require(memberOfCertainCompany[companyId][msg.sender] = true, 'Address is not member of any company.');
         require(companyExists[names[companyId]] = true, 'company does not exist');
         //ob msg.sender ist der letzte

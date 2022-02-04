@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ethers} from "ethers";
 import { MDBCol, MDBContainer, MDBInput, MDBRow, MDBBtn } from 'mdb-react-ui-kit';
 import { contractABI, contractAddress } from "../utils/constants";
@@ -17,6 +17,7 @@ const Form = () => {
     const isFounded = useStore((state)  => state.isFounded)
     const companyInfo = useStore((state)  => state.companyInfo)
     const addCompanyInfo = useStore((state) => state.addCompanyInfo)
+
 
 
     const handleTransfer = async (e) => {
@@ -38,15 +39,21 @@ const Form = () => {
             useStore.setState({isLoading: false});
             useStore.setState({isFounded: true});
             //save data of event in companyarray
-
+            useStore.setState((currentTxs) => [ {txs: {
+                    companyId,
+                    name: name.toString(),
+                    foundingCapitalGoal: foundingCapitalGoal.toNumber(),
+                    memberAmount: memberAmount.toNumber()},
+                ...currentTxs
+            }])
             addCompanyInfo({companyId: companyId.toString(),name: name.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber()})
-            // useStore.setState((companyInfo) => [...companyInfo,
-            //     {companyInfo: {
-            //             companyId: companyId.toString(),
-            //             name: name.toString(),
-            //             foundingCapitalGoal: foundingCapitalGoal.toNumber(),
-            //             memberAmount: memberAmount.toNumber()}}
-            //     ]);
+            useStore.setState((companyInfo) => [...companyInfo,
+                {companyInfo: {
+                        companyId: companyId.toString(),
+                        name: name.toString(),
+                        foundingCapitalGoal: foundingCapitalGoal.toNumber(),
+                        memberAmount: memberAmount.toNumber()}}
+                ]);
             console.log(companyInfo[companyInfo.length-1]);
             return () => {
                 contract.removeAllListeners("Founded");
@@ -55,9 +62,18 @@ const Form = () => {
 
     };
 
+
     const handleFounded = (companyId,name,foundingCapitalGoal,memberAmount) => {
-        console.log ({companyId, name, foundingCapitalGoal, memberAmount});
+        console.log ("HandleFoundedEvent: ",{companyId, name, foundingCapitalGoal, memberAmount});
+        useStore.setState((currentTxs) => [ {txs: {
+                companyId,
+                name: name.toString(),
+                foundingCapitalGoal: foundingCapitalGoal.toNumber(),
+                memberAmount: memberAmount.toNumber()},
+            ...currentTxs
+        }])
     }
+
 
     return (
         <div>
@@ -82,17 +98,17 @@ const Form = () => {
                                 <MDBBtn type='submit' >Bestätigen</MDBBtn>
                             )
                         }
-                        {isFounded
-                            ? <Success companyInfo={companyInfo}/>
-                            : (
-                                <div></div>
-                            )
-                        }
+                        {/*{isFounded*/}
+                        {/*    ? <Success companyInfo={companyInfo}/>*/}
+                        {/*    : (*/}
+                        {/*        <div></div>*/}
+                        {/*    )*/}
+                        {/*}*/}
                     </MDBCol>
                 </MDBRow>
             </form>
             <MDBRow>
-                <TxList txs={txs} />
+                {/*<TxList txs={txs} />*/}
             </MDBRow>
         </MDBContainer>
         </div>

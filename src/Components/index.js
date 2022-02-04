@@ -1,3 +1,5 @@
+// this file exorts all components, so imports of components can be minimized
+
 export { default as HeroSection } from './HeroSection';
 export { default as FoundingProgress } from './FoundingProgress';
 export { default as Form } from './Form';

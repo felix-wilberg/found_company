@@ -16,9 +16,11 @@ export const useStore = create((set) => ({
     isLoading: false,
     isFounded: false,
     address: null,
-    txs: [],
-    contractSigner: null,
-    contractProvider: null,
+    txs: [
+        { companyId: null, name: '', foundingCapitalGoal: 0, memberAmount: 0, txHash: null }
+    ],
+    contractSigner: null, //for read only
+    contractProvider: null, //for writing to blockchain
     companyName: '',
     companyBalance: '',
     companyMembers: [],
@@ -43,13 +45,12 @@ export const useStore = create((set) => ({
                 { companyId: company.companyId, name: company.name, foundingCapitalGoal: company.foundingCapitalGoal, memberAmount: company.memberAmount },
                 ...state.companyInfo,
             ]})),
-
-
 }))
 
 
 const App = () => {
     const {ethereum} = window;
+    const contract = useStore((state) => state.contractProvider);
 
 
     useEffect(() => {
@@ -58,12 +59,15 @@ const App = () => {
                 console.log(r)
             });
         createEthereumContract();
+        // contract.on("Founded", handleFounded);
+        // return () => {
+        //     contract.removeAllListeners("Founded");
+        //     useStore.setState({txs: []});
+        // };
         }, [],
     )
 
-    const listenToFounded = () => {
 
-    }
 
 
     const checkWalletIsConnected = async () => {
