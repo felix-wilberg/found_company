@@ -1,5 +1,5 @@
 import React from 'react';
-import {ContractOverview, FoundingProgress, Footer, Form}  from './index'
+import {ContractOverview, FoundingProgress, Footer, Form, LeaveOrDissolveCompany}  from './index'
 import { MDBContainer, } from 'mdb-react-ui-kit';
 
 
@@ -21,6 +21,9 @@ const Main = () => {
             </div>
             <div id='SectionTwo'>
             <FoundingProgress />
+            </div>
+            <div id='SectionOne'>
+            <LeaveOrDissolveCompany />
             </div>
             <Footer />
         </div>

@@ -10,5 +10,6 @@ export { default as Main } from './Main';
 export { default as TxList } from './TxList';
 export { default as Loader } from './Loader';
 export { default as Success } from './Success';
+export { default as LeaveOrDissolveCompany } from './LeaveOrDissolveCompany';
 
 
