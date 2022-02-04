@@ -1,29 +1,42 @@
 import React from 'react';
 import { MDBContainer, MDBInput, MDBRow, MDBIcon, MDBCol, MDBCheckbox, MDBBtn } from 'mdb-react-ui-kit';
 import { contractABI, contractAddress } from "../utils/constants";
-import {ethers} from "ethers";
 import {useStore} from "./App";
+import {ethers} from "ethers";
+import {overrides} from "tailwindcss/prettier.config";
 
 
 const ContractOverview = () => {
 
-    const companyName = useStore(state => state.companyName)
-    const companyBalance = useStore(state => state.companyBalance)
+    const companyName = useStore((state)  => state.companyName)
+    const companyBalance = useStore((state)  => state.companyBalance)
+    const companyMembers = useStore((state)  => state.companyMembers)
+    const contract = useStore((state)  => state.contractSigner)
 
-    const getMyBalance = async () => {
-        console.log("Button wurde geklickt.")
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const companyContract = new ethers.Contract(contractAddress, contractABI, provider);
-        const signer = await provider.getSigner();
-        // const signerAddress = await signer.getAddress();
-        const companyName = await companyContract.getMyCompany();
-        useStore.setState({companyName: companyName})
-        const companyBalance = await companyContract.getCompanyBalance();
-        useStore.setState({companyBalance: companyBalance.toString()})
-
-        useStore.setState({balanceInfo: [{companyId: 5, balance: 5, address: "jdnj"}]})
+    const getCompanyInfo = async () => {
+        console.log("Company Info Button wurde geklickt.")
+        const companyName = await contract.getMyCompany();
+        useStore.setState({companyName: companyName});
+        const companyBalance = await contract.getCompanyBalance();
+        useStore.setState({companyBalance: companyBalance.toString()});
+        const companyMembers = [] = await contract.getMembers(0);
+        useStore.setState({companyMembers: companyMembers});
     };
+
+    const payShare = async (e) => {
+        e.preventDefault();
+        console.log("PayShare Button wurde geklickt.");
+
+        //get all data of the form
+        const share = new FormData(e.target);
+        //check if all needed fields are filled
+        if (!share.get("amountToPay") || !share.get("amountToPay")) {alert("Bitte fülle das Formular aus."); return;}
+        //execute found company function, if company already exists, throw error alert
+        try { await contract.payShare(share.get("amountToPay"), {value: share.get("amountToPay")});}
+        catch (error) {
+            alert(error);
+        }
+    }
 
 
 
@@ -65,19 +78,21 @@ const ContractOverview = () => {
                         />
                         <label>Gesellschafter</label>
                         <MDBInput className='mb-3'
-                                  label='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
+                                  placeholder='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
+                                  label={companyMembers[0]}
                                   id='formControlReadOnly'
                                   type='text'
                                   disabled
                         />
                         <MDBInput className='mb-3'
-                                  label='0x29D7d1dd5B6f9C864d9db560D72a247c178aE86B'
+                                  placeholder='0xaa0B090e43e7626D51b36CfcE7D5F3156efd1f44'
+                                  label={companyMembers[1]}
                                   id='formControlReadOnly'
                                   type='text'
                                   disabled
                         />
                         <MDBInput
-                                label='0xcaD621da75a66c7A8f4FF86D30A2bF981Bfc8FdD'
+                                label={companyMembers[2]}
                                 id='formControlReadOnly'
                                 type='text'
                                 disabled
@@ -91,9 +106,14 @@ const ContractOverview = () => {
                         <MDBCheckbox name='disabledCheck' value='' id='flexCheckCheckedDisabled' defaultChecked disabled label='in Bearbeitung' />
                         <MDBIcon className='mt-5 mr-3' fas icon="download" />
                         <MDBBtn>Vertrag herunterladen</MDBBtn><br/><br/>
-                        <MDBIcon fab icon="ethereum" className='mr-3'/>
-                        <MDBBtn>Einzahlen</MDBBtn>
-                        <button onClick={getMyBalance} className='btn connect-wallet-button btn-primary'>Company Info laden </button>
+                        <form onSubmit={payShare}>
+                            <MDBInput className='mb-3' label='Wei einzahlen' placeholder="Wei" name="amountToPay" type='number'  />
+                            <MDBInput className='mb-3' label='Company ID' placeholder="Company ID" name="companyId" type='number'  />
+                            <MDBIcon fab icon="ethereum" className='mr-3'/>
+                            <MDBBtn type='submit'>Einzahlen</MDBBtn><br/><br/>
+                        </form>
+                        <MDBIcon icon="address-card" className='mr-3'/>
+                        <MDBBtn onClick={getCompanyInfo} >Company Info laden </MDBBtn>
 
 
                     </MDBCol>

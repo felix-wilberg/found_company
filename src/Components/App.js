@@ -13,11 +13,16 @@ import { HeroSection, Navbar, Main} from "./index";
 export const useStore = create((set) => ({
     currentAccount: '',
     isLoggedIn: false,
+    isLoading: false,
+    isFounded: false,
     address: null,
     txs: [],
-    contract: null,
+    contractSigner: null,
+    contractProvider: null,
     companyName: '',
     companyBalance: '',
+    companyMembers: [],
+    companyId: '',
     amountShareHolders: 0,
     foundingCapital: 0,
     contractInfo: [
@@ -29,6 +34,17 @@ export const useStore = create((set) => ({
     balanceInfo: [
         { companyId: null, address: '', balance: 0 }
     ],
+    companyInfo:[
+        { companyId: null, name: '', foundingCapitalGoal: 0, memberAmount: 0, txHash: null }
+   ],
+    addCompanyInfo: (company) =>
+        set((state) => ({
+            companyInfo: [
+                { companyId: company.companyId, name: company.name, foundingCapitalGoal: company.foundingCapitalGoal, memberAmount: company.memberAmount },
+                ...state.companyInfo,
+            ]})),
+
+
 }))
 
 
@@ -44,6 +60,10 @@ const App = () => {
         createEthereumContract();
         }, [],
     )
+
+    const listenToFounded = () => {
+
+    }
 
 
     const checkWalletIsConnected = async () => {
@@ -70,10 +90,12 @@ const App = () => {
     const createEthereumContract = () => {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
-        const companyContract = new ethers.Contract(contractAddress, contractABI, signer);
-        useStore.setState({contract: companyContract})
+        const companyContractSigner = new ethers.Contract(contractAddress, contractABI, signer);
+        useStore.setState({contractSigner: companyContractSigner})
+        const companyContractProvider = new ethers.Contract(contractAddress, contractABI, provider);
+        useStore.setState({contractProvider: companyContractProvider})
 
-        return companyContract;
+        //return companyContract;
     };
 
 
