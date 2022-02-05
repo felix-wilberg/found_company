@@ -2,20 +2,25 @@
 
 ## install git
 
-aktuellen Änderungen reinholen ``git pull``
+aktuellen Änderungen pullen ``git pull``
 
-ehen wo änderungen gemacht wurden ``git status``
+sehen wo änderungen gemacht wurden ``git status``
 
 alle geänderten oder hinzugefügten Datein adden ``git add .``
 
-Änderungen mit Nachricht commiten (immer noch lokal) ``git comit -m 'changed file XY and file YX``
+Änderungen mit Nachricht committen ``git comit -m 'changed file XY and file YX``
 
 Datei hochgeladen aka in Repo reingeladen ``git push``
 
 ## install all packages
 
-isntall npm
+install npm
 
-intall all packages with ``npm i``
+install all packages with ``npm i``
 
 start development server  ``npm start``
+
+## use of DApp
+This app uses the Ropsten testnet. You need to get some ether from https://faucet.egorfine.com/
+Add your address and receive some ropsten ETH.
+

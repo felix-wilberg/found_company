@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {ethers} from "ethers";
+import React from 'react';
 import { MDBCol, MDBContainer, MDBInput, MDBRow, MDBBtn } from 'mdb-react-ui-kit';
-import { contractABI, contractAddress } from "../utils/constants";
 import {useStore} from "./App";
 import { TxList, Loader, Success} from "./index";
 
@@ -91,11 +89,12 @@ const Form = () => {
                         <MDBInput className='mb-3' label='Stammkapital' placeholder="Stammkapital" id='text' name="foundingCapital" type='number'  />
                         <MDBInput className='mb-3' label='Gegenstand der Firma' placeholder="Gegenstand der Firma" name="companyWhy" id='textarea' textarea rows={3}  />
 
-
                         {isLoading
                             ? <Loader />
                             : (
-                                <MDBBtn type='submit' >Bestätigen</MDBBtn>
+                                <div className='text-center'>
+                                    <MDBBtn type='submit' >Bestätigen</MDBBtn>
+                                </div>
                             )
                         }
                         {/*{isFounded*/}

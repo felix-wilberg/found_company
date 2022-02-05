@@ -5,8 +5,10 @@ import {useStore} from "./App";
 
 const LeaveOrDissolveCompany = () => {
 
+    //import all needed states
     const contractSigner = useStore((state)  => state.contractSigner);
 
+    //dissolve a specific company based on companyId
     const dissolveCompany = async (e) => {
         e.preventDefault();
         console.log("Firma auflösen Button wurde geklickt.")
@@ -19,8 +21,9 @@ const LeaveOrDissolveCompany = () => {
         catch (error) {
             alert(error);
         }
-
     };
+
+    //leave a specific company based on companyId
     const leaveCompany = async (e) => {
         e.preventDefault();
         console.log("Firma verlassen Button wurde geklickt")

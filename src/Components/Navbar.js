@@ -33,13 +33,13 @@ const Navbar = () => {
                                 </MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem> 
-                                <MDBNavbarLink id='NavLink' href='#'>Features</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='#'>Gründen</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem>
-                                <MDBNavbarLink id='NavLink' href='#'>Pricing</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='#'>Übersicht</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem>
-                                <MDBNavbarLink id='NavLink' href='#'>About</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='#'>Auflösen</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem className= 'ml-auto'>
                                 <ConnectWalletButton />
