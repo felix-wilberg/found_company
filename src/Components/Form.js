@@ -1,21 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { MDBCol, MDBContainer, MDBInput, MDBRow, MDBBtn } from 'mdb-react-ui-kit';
 import {useStore} from "./App";
-import { TxList, Loader, Success} from "./index";
+import { Loader, SuccessFounded} from "./index";
 
 
 
 
 const Form = () => {
     //load all needed states
-    const contract = useStore((state) => state.contractSigner)
-    const txs = useStore((state) => state.txs)
+    const contractSigner = useStore((state) => state.contractSigner)
     const companyId = useStore((state)  => state.companyId)
-    const isLoading = useStore((state)  => state.isLoading)
-    const isFounded = useStore((state)  => state.isFounded)
     const companyInfo = useStore((state)  => state.companyInfo)
     const addCompanyInfo = useStore((state) => state.addCompanyInfo)
 
+    const [companyFounded, setCompanyFounded] = useState(null);
+    const [isLoading, setIsLoading] = useState(null);
 
 
     const handleTransfer = async (e) => {
@@ -25,52 +24,24 @@ const Form = () => {
         //check if all needed fields are filled
         if (!data.get("companyName") || !data.get("foundingCapital") || !data.get("amountShareholders")) {alert("Bitte fülle das Formular aus."); return;}
         //execute found company function, if company already exists, throw error alert
-        try { await contract.found(data.get("companyName"), data.get("foundingCapital"), data.get("amountShareholders"));}
-        catch (error) {
-            alert(error);
-        }
-        //if successful, wait for network to process the transaction
-        useStore.setState({isLoading: true});
-        //listen to event "founded" and get data of event
-        contract.on("Founded", (companyId,name,foundingCapitalGoal,memberAmount) => {
-            console.log({companyId: companyId.toString(),name: name.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber()});
-            useStore.setState({isLoading: false});
-            useStore.setState({isFounded: true});
-            //save data of event in companyarray
-            useStore.setState((currentTxs) => [ {txs: {
-                    companyId,
-                    name: name.toString(),
-                    foundingCapitalGoal: foundingCapitalGoal.toNumber(),
-                    memberAmount: memberAmount.toNumber()},
-                ...currentTxs
-            }])
-            addCompanyInfo({companyId: companyId.toString(),name: name.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber()})
-            useStore.setState((companyInfo) => [...companyInfo,
-                {companyInfo: {
-                        companyId: companyId.toString(),
-                        name: name.toString(),
-                        foundingCapitalGoal: foundingCapitalGoal.toNumber(),
-                        memberAmount: memberAmount.toNumber()}}
-                ]);
-            console.log(companyInfo[companyInfo.length-1]);
-            return () => {
-                contract.removeAllListeners("Founded");
+        try {
+            setIsLoading(true);
+            await contractSigner.found(data.get("companyName"), data.get("foundingCapital"), data.get("amountShareholders"));
+            contractSigner.on("Founded", (companyId,name,foundingCapitalGoal,memberAmount) => {
+                setIsLoading(false);
+                console.log({companyId: companyId.toString(),name: name.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber()});
+                setCompanyFounded({companyId: companyId.toString(),name: name.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber()});
+                return () => {
+                    contractSigner.removeAllListeners("Founded");
+                }})
             }
-        })
-
+        catch (error) {
+            console.log(error, typeof error, error.data);
+            alert(error.message);
+            setIsLoading(false);
+        }
     };
 
-
-    const handleFounded = (companyId,name,foundingCapitalGoal,memberAmount) => {
-        console.log ("HandleFoundedEvent: ",{companyId, name, foundingCapitalGoal, memberAmount});
-        useStore.setState((currentTxs) => [ {txs: {
-                companyId,
-                name: name.toString(),
-                foundingCapitalGoal: foundingCapitalGoal.toNumber(),
-                memberAmount: memberAmount.toNumber()},
-            ...currentTxs
-        }])
-    }
 
 
     return (
@@ -97,18 +68,12 @@ const Form = () => {
                                 </div>
                             )
                         }
-                        {/*{isFounded*/}
-                        {/*    ? <Success companyInfo={companyInfo}/>*/}
-                        {/*    : (*/}
-                        {/*        <div></div>*/}
-                        {/*    )*/}
-                        {/*}*/}
+                        {companyFounded !== null
+                            && <SuccessFounded companyFounded={companyFounded}/>
+                        }
                     </MDBCol>
                 </MDBRow>
             </form>
-            <MDBRow>
-                {/*<TxList txs={txs} />*/}
-            </MDBRow>
         </MDBContainer>
         </div>
 

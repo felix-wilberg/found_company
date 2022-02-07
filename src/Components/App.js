@@ -50,7 +50,8 @@ export const useStore = create((set) => ({
 
 const App = () => {
     const {ethereum} = window;
-    const contract = useStore((state) => state.contractProvider);
+    const contractProvider = useStore((state) => state.contractProvider);
+    const contractSigner = useStore((state) => state.contractSigner);
 
 
     useEffect(() => {
@@ -59,11 +60,6 @@ const App = () => {
                 console.log(r)
             });
         createEthereumContract();
-        // contract.on("Founded", handleFounded);
-        // return () => {
-        //     contract.removeAllListeners("Founded");
-        //     useStore.setState({txs: []});
-        // };
         }, [],
     )
 
@@ -98,8 +94,6 @@ const App = () => {
         useStore.setState({contractSigner: companyContractSigner})
         const companyContractProvider = new ethers.Contract(contractAddress, contractABI, provider);
         useStore.setState({contractProvider: companyContractProvider})
-
-        //return companyContract;
     };
 
 

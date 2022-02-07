@@ -7,7 +7,8 @@ import {
     MDBNavbarLink,
     MDBNavbarToggler,
     MDBContainer,
-    MDBIcon } from 'mdb-react-ui-kit';
+    MDBIcon, MDBNavbarBrand
+} from 'mdb-react-ui-kit';
 
 
 
@@ -25,6 +26,15 @@ const Navbar = () => {
                     >
                         <MDBIcon fas icon='bars'/>
                     </MDBNavbarToggler>
+
+                        <MDBNavbarBrand href='#'>
+                            <img
+                                src='/Users/felixwilberg/code/found_company/public/Logo.jpeg'
+                                height='30'
+                                alt=''
+                            />
+                        </MDBNavbarBrand>
+
                     <div className='collapse navbar-collapse' id='navbarExample01'>
                         <MDBNavbarNav right className='mb-2 mb-lg-0'>
                             <MDBNavbarItem active>
@@ -33,13 +43,13 @@ const Navbar = () => {
                                 </MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem> 
-                                <MDBNavbarLink id='NavLink' href='#'>Gründen</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='/#FoundCompany'>Gründen</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem>
-                                <MDBNavbarLink id='NavLink' href='#'>Übersicht</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='/#Overview'>Übersicht</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem>
-                                <MDBNavbarLink id='NavLink' href='#'>Auflösen</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='/#LeaveCompany'>Auflösen</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem className= 'ml-auto'>
                                 <ConnectWalletButton />

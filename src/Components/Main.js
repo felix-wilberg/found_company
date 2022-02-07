@@ -1,13 +1,14 @@
 import React from 'react';
-import {ContractOverview, FoundingProgress, Footer, Form, LeaveOrDissolveCompany}  from './index'
+import {ContractOverview, Footer, Form, LeaveOrDissolveCompany}  from './index'
 import { MDBContainer, } from 'mdb-react-ui-kit';
+import TxList from "./TxList";
 
 
 
 const Main = () => {
     return(
         <div>
-            <div id='SectionTwo'>
+            <div id='FoundCompany'>
             <MDBContainer className='pt-5'>
                 <div className='mb-5 text-center'>
                     <h2 className='mt-5 mb-3'>Gesellschaftervertrag aufsetzen</h2>
@@ -16,14 +17,12 @@ const Main = () => {
                 <Form />
             </MDBContainer>
             </div>
-            <div id='SectionOne'>
+            <div id='Overview'>
             <ContractOverview />
             </div>
-            <div id='SectionTwo'>
-            <FoundingProgress />
-            </div>
-            <div id='SectionOne'>
+            <div id='LeaveCompany'>
             <LeaveOrDissolveCompany />
+                <TxList />
             </div>
             <Footer />
         </div>

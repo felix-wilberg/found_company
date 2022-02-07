@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { MDBContainer, MDBInput, MDBRow, MDBIcon, MDBCol, MDBCheckbox, MDBBtn } from 'mdb-react-ui-kit';
-import { contractABI, contractAddress } from "../utils/constants";
+import { contractAddress } from "../utils/constants";
 import {useStore} from "./App";
+import {Loader, SuccessPayed} from "./index";
 
 
 
 const ContractOverview = () => {
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isReceived, setIsReceived] = useState(null);
 
     //all needed states are imported
     const companyName = useStore((state)  => state.companyName);
@@ -21,7 +25,7 @@ const ContractOverview = () => {
         console.log("Company Info Button wurde geklickt.")
         //get all data of the form
         const getCompany = new FormData(e.target);
-        //try to get all information based on th ecompanyId, in case no company exists throw the error
+        //try to get all information based on the companyId, in case no company exists throw the error
         try{
             const companyName = await contractProvider.getMyCompanyById(getCompany.get("companyId-2"));
             useStore.setState({companyName: companyName});
@@ -45,10 +49,22 @@ const ContractOverview = () => {
         //check if all needed fields are filled
         if (!share.get("amountToPay") || !share.get("companyId")) {alert("Bitte fülle das Formular aus."); return;}
         //execute found company function, if company already exists, throw error alert
-        try { await contractSigner.payShare(share.get("companyId"), {value: share.get("amountToPay")});}
+        try {
+            setIsLoading(true);
+            await contractSigner.payShare(share.get("companyId"), {value: share.get("amountToPay")});
+            contractSigner.on("Received", (value,addressSender, event) => {
+                setIsLoading(false)
+                setIsReceived({value: value.toNumber(), addressSender: addressSender.toString(), txHash: event.transactionHash})
+                return () => {
+                    contractProvider.removeAllListeners("Received");
+                }
+            })
+        }
         catch (error) {
             alert(error);
+            setIsLoading(false)
         }
+
     }
 
 
@@ -126,8 +142,18 @@ const ContractOverview = () => {
                         <form onSubmit={payShare}>
                             <MDBInput className='mb-3' label='Wei einzahlen' placeholder="Wei" name="amountToPay" type='number'  />
                             <MDBInput className='mb-3' label='Company ID' placeholder="Company ID" name="companyId" type='number'  />
-                            <MDBIcon fab icon="ethereum" className='mr-3'/>
-                            <MDBBtn type='submit'>Einzahlen</MDBBtn><br/><br/>
+
+
+                            {isLoading
+                                ? <Loader />
+                                : (
+                                    <div >
+                                        <MDBIcon fab icon="ethereum" className='mr-3'/>
+                                        <MDBBtn type='submit'>Einzahlen</MDBBtn><br/><br/>
+                                    </div>
+                                )
+                            }
+
                         </form>
 
                         <form onSubmit={getCompanyInfo}>
@@ -136,9 +162,12 @@ const ContractOverview = () => {
                             <MDBIcon icon="address-card" className='mr-3'/>
                             <MDBBtn type='submit' >Company Info laden </MDBBtn>
                         </form>
-
+                        {isReceived !== null
+                            && <SuccessPayed isReceived={isReceived}/>
+                        }
                     </MDBCol>
                 </MDBRow>
+
             </div>
         </MDBContainer>
     );

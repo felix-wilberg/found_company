@@ -26,7 +26,7 @@ contract Company {
     // a member consists of address, amount of coins investested and boolean for polling if company should be dissolved
     struct Member{
         address member;
-        uint256 amount;
+        uint256 amount; //payed amount per member
         uint256 companyId;
         bool wantDissolveCompany;
     }
@@ -39,7 +39,6 @@ contract Company {
 
     //company and member specific
     mapping(address => Member) internal addressMember; //map address to the member
-    //mapping(uint256 => Member[]) internal members; // map
     mapping(uint256 => address[]) internal memberAddresses;
     mapping(uint256 => uint256) internal memberAmount; // map amount company id to amount of members
     mapping(uint256 => uint256) internal amountWantDissolveCompany; //map company id to amount of members who want to dissolve the company
@@ -61,9 +60,10 @@ contract Company {
     /////////EVENTS////////////
     ///////////////////////////
 
-    event Received(uint256 value, address sender);
+    event Received(uint256 value, address sender, uint256 companyId);
     event Founded(uint256 companyId, string name, uint256 foundingcapitalgoal, uint256 memberAmount);
-    event Dissolved(uint256 companyId, string name);
+    event Dissolved(uint256 companyId, string name, address sender);
+    event Left(uint256 companyId, string name, address sender);
 
 
     ///////////////////////////
@@ -98,7 +98,8 @@ contract Company {
         memberOfAnyCompany[newAddress] = true;
     }
 
-    function payShare(uint256 companyId) external payable returns(uint256) {   //external means less gas fees
+    function payShare(uint256 companyId) external payable {
+        // external means less gas fees
         // value needs to be more than expected companyfoundingcapital devided by amount of founders
         require(msg.value >= foundingcapitalgoal[companyId]/memberAmount[companyId], 'value is not enough');
 
@@ -110,22 +111,18 @@ contract Company {
         addressMember[msg.sender].amount = msg.value;
         payedCapital[companyId] += msg.value;
 
-        //return 1 for success and missing capital
-        //uint256 missing = foundingcapitalgoal[companyId] - payedCapital[companyId];
-
-        emit Received(msg.value, msg.sender);
-        return(1);
+        emit Received(msg.value, msg.sender, companyId);
     }
 
 
-    function leaveCompany(uint256 companyId) external returns (uint256) {
+    function leaveCompany(uint256 companyId) external  {
         //check, if user is part of the company
         require(memberOfCertainCompany[companyId][msg.sender] = true, 'Address is not member of the company.');
         //check, if company has more than one member
         require(memberAddresses[companyId].length >1, 'Company just has one member. Please dissolve Company.');
         //evtl. dissokve automatisch aufrufen
         require(addressMember[msg.sender].amount > 0, 'No shares payed.');
-        //variable for the returnmoney
+        //calculate the retun amount
         uint256 returnMoney = calcReturnAmount(msg.sender, companyId);
 
         //if payed amount is smaller than part of payedcapital --> return amount payed, else return part of capital
@@ -139,7 +136,7 @@ contract Company {
         memberOfCertainCompany[companyId][msg.sender] = false;
         memberOfAnyCompany[msg.sender] = false;
         removeFromMemberAddresses(companyId, msg.sender);
-        return(1);
+        emit Left(companyId, names[companyId], msg.sender);
     }
 
     //internal function to calculate the return amount
@@ -156,9 +153,11 @@ contract Company {
     //internal function to remove the address from mapping array
     function removeFromMemberAddresses(uint256 companyId, address removeAddress) internal {
         uint i = 0;
+        //search position of address in array
         while (memberAddresses[companyId][i] != removeAddress) {
             i++;
         }
+        //replace deleted address by decrementing and moving all following addresses by 1
         while (i<memberAddresses[companyId].length-1) {
             memberAddresses[companyId][i] = memberAddresses[companyId][i+1];
             i++;
@@ -176,6 +175,7 @@ contract Company {
     function dissolveCompany(uint256 companyId) public {
         require(memberOfCertainCompany[companyId][msg.sender] = true, 'Address is not member of any company.');
         require(companyExists[names[companyId]] = true, 'company does not exist');
+        string memory companyName = names[companyId];
         //ob msg.sender ist der letzte
         // wenn ja, dann überweisen
         // wenn nein, wantDissolveCompany für member auf true
@@ -197,13 +197,12 @@ contract Company {
 
             // return erfolgreich
         }
-        // 1 Jahr Sperre für Namen
-        emit Dissolved(companyId, names[companyId]);
+        emit Dissolved(companyId, companyName, msg.sender);
 
     }
 
     //returns memberAddresses
-    function getMembers(uint256 companyId) external view returns  (address[] memory) {
+    function getMembersById(uint256 companyId) external view returns  (address[] memory) {
         return(memberAddresses[companyId]);
     }
 
@@ -211,7 +210,7 @@ contract Company {
         return company;
     }
 
-    function getMyCompanyById(uint256 companyId) external view returns (string memory) {
+    function getCompanyById(uint256 companyId) external view returns (string memory) {
         string memory compName = names[companyId];
         require(companyExists[compName] == true, "no company with this ID");
         return names[companyId];
