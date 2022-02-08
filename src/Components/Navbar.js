@@ -1,5 +1,5 @@
 import React from 'react';
-import ConnectWalletButton from './ConnectWalletButton'
+import { ConnectWalletButton } from './index'
 import {
     MDBNavbar,
     MDBNavbarNav,
@@ -27,16 +27,17 @@ const Navbar = () => {
                         <MDBIcon fas icon='bars'/>
                     </MDBNavbarToggler>
 
-                        <MDBNavbarBrand href='#'>
-                            <img
-                                src='/Users/felixwilberg/code/found_company/public/Logo.jpeg'
-                                height='30'
-                                alt=''
-                            />
-                        </MDBNavbarBrand>
+
 
                     <div className='collapse navbar-collapse' id='navbarExample01'>
                         <MDBNavbarNav right className='mb-2 mb-lg-0'>
+                            <MDBNavbarBrand href='#'>
+                                <img
+                                    src='../../public/Logo.jpeg'
+                                    height='30'
+                                    alt=''
+                                />
+                            </MDBNavbarBrand>
                             <MDBNavbarItem active>
                                 <MDBNavbarLink id='NavLink' aria-current='page' href='#'>
                                     Home
@@ -50,6 +51,9 @@ const Navbar = () => {
                             </MDBNavbarItem>
                             <MDBNavbarItem>
                                 <MDBNavbarLink id='NavLink' href='/#LeaveCompany'>Auflösen</MDBNavbarLink>
+                            </MDBNavbarItem>
+                            <MDBNavbarItem>
+                                <MDBNavbarLink id='NavLink' href='/#Transactions'>Transaktionen</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem className= 'ml-auto'>
                                 <ConnectWalletButton />

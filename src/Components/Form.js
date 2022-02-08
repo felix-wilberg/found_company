@@ -4,15 +4,11 @@ import {useStore} from "./App";
 import { Loader, SuccessFounded} from "./index";
 
 
-
-
 const Form = () => {
     //load all needed states
     const contractSigner = useStore((state) => state.contractSigner)
-    const companyId = useStore((state)  => state.companyId)
-    const companyInfo = useStore((state)  => state.companyInfo)
-    const addCompanyInfo = useStore((state) => state.addCompanyInfo)
 
+    //use local states
     const [companyFounded, setCompanyFounded] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
 
@@ -25,12 +21,17 @@ const Form = () => {
         if (!data.get("companyName") || !data.get("foundingCapital") || !data.get("amountShareholders")) {alert("Bitte fülle das Formular aus."); return;}
         //execute found company function, if company already exists, throw error alert
         try {
-            setIsLoading(true);
+            setIsLoading(true); //turn on loading spinner
             await contractSigner.found(data.get("companyName"), data.get("foundingCapital"), data.get("amountShareholders"));
             contractSigner.on("Founded", (companyId,companyName,foundingCapitalGoal,memberAmount, event) => {
-                setIsLoading(false);
-                console.log({companyId: companyId.toString(),companyName: companyName.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(), memberAmount: memberAmount.toNumber(), txHash: event.transactionHash});
-                setCompanyFounded({companyId: companyId.toString(),companyName: companyName.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber(), txHash: event.transactionHash});
+                setIsLoading(false); //turn off loading spinner
+                //set state to use in SuccessFounded.js
+                setCompanyFounded({
+                    companyId: companyId.toString(),
+                    companyName: companyName.toString(),
+                    foundingCapitalGoal: foundingCapitalGoal.toString(),
+                    memberAmount: memberAmount.toNumber(),
+                    txHash: event.transactionHash});
                 return () => {
                     contractSigner.removeAllListeners("Founded");
                 }})
@@ -41,7 +42,6 @@ const Form = () => {
             setIsLoading(false);
         }
     };
-
 
 
     return (
@@ -60,6 +60,7 @@ const Form = () => {
                         <MDBInput className='mb-3' label='Stammkapital' placeholder="Stammkapital" id='text' name="foundingCapital" type='number'  />
                         <MDBInput className='mb-3' label='Gegenstand der Firma' placeholder="Gegenstand der Firma" name="companyWhy" id='textarea' textarea rows={3}  />
 
+                        {/*turn on loading spinner based on state isLoading, else show button*/}
                         {isLoading
                             ? <Loader />
                             : (
@@ -68,6 +69,7 @@ const Form = () => {
                                 </div>
                             )
                         }
+                        {/*if companyFounded is true, show Component SuccessFounded.js*/}
                         {companyFounded !== null
                             && <SuccessFounded companyFounded={companyFounded}/>
                         }

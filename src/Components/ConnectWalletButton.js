@@ -2,7 +2,9 @@ import React from 'react';
 import {useStore} from "./App";
 
 
+//walletButton in navBar
 const ConnectWalletButton = () => {
+    //get states from globally used zustand store
     const currentAccount = useStore(state => state.currentAccount)
     const isLoggedIn = useStore(state => state.isLoggedIn)
 
@@ -15,8 +17,7 @@ const ConnectWalletButton = () => {
         try {
             const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
             useStore.setState({currentAccount: accounts[0]})
-            //setCurrentAccount(accounts[0]);
-            //setIsLoggedIn(true);
+            //set state to true to display the own address
             useStore.setState({isLoggedIn: true})
 
             console.log("Found account! Address: ", accounts[0]);
@@ -26,6 +27,7 @@ const ConnectWalletButton = () => {
         }
     }
 
+    // change state of button as soon as wallet is connected, only show last 5 characters of address
     return (
         <button onClick={connectWalletHandler} className='btn connect-wallet-button btn-primary'>
             {isLoggedIn ?  'Your Account: ...' + currentAccount.substring(currentAccount.length-5, currentAccount.length) : 'Connect Wallet'}

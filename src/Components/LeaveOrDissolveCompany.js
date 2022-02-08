@@ -9,6 +9,7 @@ const LeaveOrDissolveCompany = () => {
     //import all needed states
     const contractSigner = useStore((state)  => state.contractSigner);
 
+    //all states for use in this component only
     const [isLoadingDissolve, setIsLoadingDissolve] = useState(false);
     const [isDissolved, setIsDissolved] = useState(null);
     const [isLoadingLeave, setIsLoadingLeave] = useState(false);
@@ -24,10 +25,11 @@ const LeaveOrDissolveCompany = () => {
         if (!dissolveCompanyInput.get("companyIdDissolve")) {alert("Bitte fülle das Formular aus."); return;}
         //execute leaveCompany  function, if company already exists, throw error alert
         try {
-            setIsLoadingDissolve(true);
+            setIsLoadingDissolve(true); //turn on loading spinner
             await contractSigner.dissolveCompany(dissolveCompanyInput.get("companyIdDissolve"));
             contractSigner.on("Dissolved", (companyId,companyName, addressSender, event) => {
-                setIsLoadingDissolve(false);
+                setIsLoadingDissolve(false); //turn off loading spinner
+                //set state to be displayed in SuccessDissolved.js Component
                 setIsDissolved({
                     companyId: companyId.toNumber(),
                     companyName: companyName.toString(),
@@ -39,6 +41,7 @@ const LeaveOrDissolveCompany = () => {
                 }
             })
         }
+        //if transaction did not go through, catch the error and turn off loading spinner
         catch (error) {
             setIsLoadingDissolve(false);
             alert(error);
@@ -55,10 +58,11 @@ const LeaveOrDissolveCompany = () => {
         if (!leaveCompanyInput.get("companyIdLeave")) {alert("Bitte fülle das Formular aus."); return;}
         //execute leaveCompany  function, if company already exists, throw error alert
         try {
-            setIsLoadingLeave(true);
+            setIsLoadingLeave(true); //turn on loading spinner
             await contractSigner.leaveCompany(leaveCompanyInput.get("companyIdLeave"));
             contractSigner.on("Left", (companyId,companyName, addressSender, event) => {
-                setIsLoadingLeave(false);
+                setIsLoadingLeave(false); //turn off loading spinner
+                //set state to be displayed in SuccessLeave.js Component
                 setIsLeft({
                     companyId: companyId.toString(),
                     companyName: companyName.toString(),
@@ -70,6 +74,7 @@ const LeaveOrDissolveCompany = () => {
                 }
             })
         }
+        //if transaction did not go through, catch the error and turn off loading spinner
         catch (error) {
             setIsLoadingLeave(false);
             alert(error);
@@ -87,6 +92,7 @@ const LeaveOrDissolveCompany = () => {
                             Firma auflösen<br />
                             <form onSubmit={dissolveCompany}>
                                 <MDBInput className='mb-3' label='Company ID' placeholder="Company ID" name="companyIdDissolve" type='number'  />
+                                {/*turn on loading spinner based on state isLoadingDissolve, else show button*/}
                                 {isLoadingDissolve
                                     ? <Loader />
                                     : (
@@ -96,6 +102,7 @@ const LeaveOrDissolveCompany = () => {
                                     )
                                 }
                             </form>
+                            {/*if isDissolved is true, show Component SuccessLeave.js*/}
                             {isDissolved !== null
                                 && <SuccessDissolved isDissolved={isDissolved}/>
                             }
@@ -106,6 +113,7 @@ const LeaveOrDissolveCompany = () => {
                             Firma verlassen<br />
                             <form onSubmit={leaveCompany}>
                                 <MDBInput className='mb-3' label='Company ID' placeholder="Company ID" name="companyIdLeave" type='number'  />
+                                {/*turn on loading spinner based on state isLoadingLeave, else shown button*/}
                                 {isLoadingLeave
                                     ? <Loader />
                                     : (
@@ -115,6 +123,7 @@ const LeaveOrDissolveCompany = () => {
                                     )
                                 }
                             </form>
+                            {/*if isLeft is true, show Component SuccessLeave.js*/}
                             {isLeft !== null
                                 && <SuccessLeave isLeft={isLeft}/>
                             }

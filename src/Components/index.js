@@ -14,5 +14,4 @@ export { default as SuccessFounded } from './SuccessFounded';
 export { default as SuccessDissolved } from './SuccessDissolved';
 export { default as SuccessLeave } from './SuccessLeave';
 export { default as LeaveOrDissolveCompany } from './LeaveOrDissolveCompany';
-
-
+export { default as ConnectWalletButton } from './ConnectWalletButton';

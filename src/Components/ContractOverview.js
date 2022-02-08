@@ -1,20 +1,23 @@
-import React, {useState} from 'react';
-import { MDBContainer, MDBInput, MDBRow, MDBIcon, MDBCol, MDBCheckbox, MDBBtn } from 'mdb-react-ui-kit';
+import React, { useState } from 'react';
+import { MDBContainer, MDBInput, MDBRow, MDBIcon, MDBCol, MDBBtn } from 'mdb-react-ui-kit';
 import { contractAddress } from "../utils/constants";
-import {useStore} from "./App";
-import {Loader, SuccessPayed} from "./index";
+import { useStore } from "./App";
+import { Loader, SuccessPayed } from "./index";
 
 
 
 const ContractOverview = () => {
 
+    //set local states used within this component
     const [isLoading, setIsLoading] = useState(false);
     const [isReceived, setIsReceived] = useState(null);
+    const [companyName, setCompanyName] = useState('');
+    const [companyBalance, setCompanyBalance] = useState('');
+    const [companyMembers, setCompanyMembers] = useState([]);
 
-    //all needed states are imported
-    const companyName = useStore((state)  => state.companyName);
-    const companyBalance = useStore((state)  => state.companyBalance);
-    const companyMembers = useStore((state)  => state.companyMembers);
+
+
+    //all needed states from zustand useStore are imported
     const contractSigner = useStore((state)  => state.contractSigner);
     const contractProvider = useStore((state)  => state.contractProvider);
 
@@ -28,11 +31,11 @@ const ContractOverview = () => {
         //try to get all information based on the companyId, in case no company exists throw the error
         try{
             const companyName = await contractProvider.getCompanyById(getCompany.get("companyId-2"));
-            useStore.setState({companyName: companyName});
+            setCompanyName(companyName);
             const companyBalance = await contractProvider.getCompanyBalanceById(getCompany.get("companyId-2"));
-            useStore.setState({companyBalance: companyBalance.toString()});
+            setCompanyBalance(companyBalance.toString());
             const companyMembers = [] = await contractProvider.getMembersById(getCompany.get("companyId-2"));
-            useStore.setState({companyMembers: companyMembers});
+            setCompanyMembers(companyMembers);
         } catch (error) {
             alert(error);
         }
@@ -50,10 +53,11 @@ const ContractOverview = () => {
         if (!share.get("amountToPay") || !share.get("companyId")) {alert("Bitte fülle das Formular aus."); return;}
         //execute found company function, if company already exists, throw error alert
         try {
-            setIsLoading(true);
+            setIsLoading(true); //turn on loading spinner
             await contractSigner.payShare(share.get("companyId"), {value: share.get("amountToPay")});
             contractSigner.on("Received", (value,addressSender,companyId, event) => {
-                setIsLoading(false)
+                setIsLoading(false); //turn off loading spinner
+                //set state to be displayed in SuccessPayed.js Component
                 setIsReceived({value: value.toNumber(), addressSender: addressSender.toString(), companyId: companyId.toNumber(), txHash: event.transactionHash})
                 return () => {
                     contractProvider.removeAllListeners("Received");
@@ -135,16 +139,12 @@ const ContractOverview = () => {
                     </MDBCol>
 
                     <MDBCol size='5'>
-                        {/*<div>Status</div>*/}
-                        {/*<MDBCheckbox name='disabledCheck' value='' id='flexCheckDisabled' checked disabled label='unterzeichnet' />*/}
-                        {/*<MDBCheckbox name='disabledCheck' value='' id='flexCheckCheckedDisabled' defaultChecked disabled label='in Bearbeitung' />*/}
-                        {/*<br/>*/}
                         <div>Einzahlung</div>
                         <form onSubmit={payShare}>
                             <MDBInput className='mb-3' label='Wei einzahlen' placeholder="Wei" name="amountToPay" type='number'  />
                             <MDBInput className='mb-3' label='Company ID' placeholder="Company ID" name="companyId" type='number'  />
 
-
+                            {/*turn on loading spinner based on state isLoading, else show button*/}
                             {isLoading
                                 ? <Loader />
                                 : (
@@ -163,6 +163,7 @@ const ContractOverview = () => {
                             <MDBIcon icon="address-card" className='mr-3'/>
                             <MDBBtn type='submit' >Company Info laden </MDBBtn>
                         </form>
+                        {/*if isReceived is true, show Component SuccessPayed.js*/}
                         {isReceived !== null
                             && <SuccessPayed isReceived={isReceived}/>
                         }
