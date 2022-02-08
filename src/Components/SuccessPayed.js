@@ -11,8 +11,9 @@ const Success = ({isReceived}) => {
                                     <i className="fas fa-check-circle me-3"></i>
                                         <p>Ether wurde eingezahlt:</p>
                                         <p>Menge: {isReceived.value}</p>
+                                        <p>CompanyId: {isReceived.companyId}</p>
                                         <p>Adresse: {isReceived.addressSender}</p>
-                                        <a href={`https://ropsten.etherscan.io/tx/${isReceived.txHash}`}>
+                                        <a href={`https://ropsten.etherscan.io/tx/${isReceived.txHash}`} target="_blank">
                                                 Check in block explorer
                                         </a>
                                 </div>

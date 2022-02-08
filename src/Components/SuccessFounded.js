@@ -11,10 +11,10 @@ const SuccessFounded = ({companyFounded}) => {
                                     <i className="fas fa-check-circle me-3"></i>
                                         <p>Die Firma wurde gegründet:</p>
                                         <p>CompanyID: {companyFounded.companyId}</p>
-                                        <p>name: {companyFounded.name}</p>
+                                        <p>name: {companyFounded.companyName}</p>
                                         <p>foundingCapitalGoal: {companyFounded.foundingCapitalGoal}</p>
                                         <p>memberAmount: {companyFounded.memberAmount}</p>
-                                        <a href={`https://ropsten.etherscan.io/tx/${companyFounded.txHash}`}>
+                                        <a href={`https://ropsten.etherscan.io/tx/${companyFounded.txHash}`} target="_blank">
                                                 Check in block explorer
                                         </a>
                                 </div>

@@ -16,72 +16,28 @@ const TxList = () => {
     const contractProvider = useStore((state) => state.contractProvider)
     const [eventList, setEventList] = useState([])
 
+    const fetchOldEvents = async () => {
+        const items = await contractProvider.queryFilter("*"); //* --> all events
+        console.log(items);
+        setEventList(items);
+    }
+
     useEffect(() => {
         if (contractProvider === null) return
         //load all historic events of the contract
-        const fetchOldEvents = async () => {
-            const items = await contractProvider.queryFilter("*"); //* --> all events
-            setEventList(items)
-        }
+
         fetchOldEvents().catch((error) => console.error("Fehler! ", error))
 
-        contractProvider.on("Founded", handleFounded);
-        // contractProvider.on("Received", handleReceived);
-        // contractProvider.on("Dissolved", handleDissolved);
-        // contractProvider.on("Left", handleLeft);
+        contractProvider.on("Founded", fetchOldEvents);
+        contractProvider.on("Received", fetchOldEvents);
+        contractProvider.on("Dissolved", fetchOldEvents);
+        contractProvider.on("Left", fetchOldEvents);
         return () => {
             contractProvider.removeAllListeners();
             setEventList([]);
         };
-        // if contract changes, reload this function
+        //if contract changes, reload this function
     }, [contractProvider])
-
-
-    const handleFounded = (companyId,name,foundingCapitalGoal,memberAmount) => {
-        setEventList((prev) => [
-            {
-                companyId,
-                name: name.toString(),
-                foundingCapitalGoal: foundingCapitalGoal.toNumber(),
-                memberAmount: memberAmount.toNumber()
-            },
-            ...prev
-        ]);
-    };
-
-    const handleReceived = (value,sender,companyId) => {
-        setEventList((prev) => [
-            {
-                companyId,
-                value: value.toNumber(),
-                sender: sender.toString()
-            },
-            ...prev
-        ]);
-    };
-
-    const handleDissolved = (companyId,name,sender) => {
-        setEventList((prev) => [
-            {
-                companyId,
-                name: name.toString(),
-                sender: sender.toString(),
-
-            },
-            ...prev
-        ]);
-    };
-
-    const handleLeft = (companyId,name,sender) => {
-        setEventList((prev) => [
-            {
-                companyId: companyId,
-                name: name.toString(),
-                sender: sender.toString(),
-            },
-            ...prev
-        ]);
-    };
 
 
 
@@ -90,29 +46,40 @@ const TxList = () => {
             <MDBContainer className='pt-5 pb-5'>
                 <h2 className='pt-5 pb-5 text-center'>Alle Transaktionen</h2>
                 <MDBRow>
-                    {eventList.map(({args, event, transactionHash, blockNumber}, index) => (
-
-                            <div key={index}>
-                                <MDBCard className='mb-2 w-50'>
-                                    <MDBCardBody>
-                                        <MDBCardTitle>{event.toString()}</MDBCardTitle>
-                                        {event.toString() === "Founded" ? <>
-                                            <MDBCardText>Company Name: {args.name}</MDBCardText>
+                    {eventList.sort((eventOne, eventTwo) => eventTwo.blockNumber - eventOne.blockNumber).map(({args, event, transactionHash, blockNumber}, index) => (
+                        <div key={index}>
+                            <MDBCard className='mb-2 w-50'>
+                                <MDBCardBody>
+                                    <MDBCardTitle>{event.toString()}</MDBCardTitle>
+                                    {event.toString() === "Founded" ? <>
+                                        <MDBCardText>Company Name: {args.name}</MDBCardText>
+                                        <MDBCardText>Company ID: {args.companyId.toNumber()}</MDBCardText>
+                                        <MDBCardText>Member amount: {args.memberAmount.toNumber()}</MDBCardText>
+                                        <MDBCardText>Member
+                                            CapitalGoal: {args.foundingcapitalgoal.toNumber()}</MDBCardText>
+                                    </> : event.toString() === "Received" ? <>
+                                        <MDBCardText>Company ID: {args.companyId.toNumber()}</MDBCardText>
+                                        <MDBCardText>Amount: {args.value.toNumber()} Wei</MDBCardText>
+                                        <MDBCardText>Sender: {args.sender}</MDBCardText>
+                                    </> : event.toString() === "Dissolved" ?
+                                        <>
                                             <MDBCardText>Company ID: {args.companyId.toNumber()}</MDBCardText>
-                                            <MDBCardText>Member amount: {args.memberAmount.toNumber()}</MDBCardText>
+                                            <MDBCardText>Name: {args.name}</MDBCardText>
+                                            <MDBCardText>Adresse: {args.sender}</MDBCardText>
                                         </> : <>
-                                            <MDBCardText>Amount: {args.value.toNumber()} Wei</MDBCardText>
-                                            <MDBCardText>Sender: {args.sender}</MDBCardText>
-                                        </>}
-                                        <MDBBtn href={`https://ropsten.etherscan.io/tx/${transactionHash}`}>
-                                            Check in block explorer
-                                        </MDBBtn>
-
-                                    </MDBCardBody>
-                                    <MDBCardFooter>Blocknumber: {blockNumber}</MDBCardFooter>
-                                </MDBCard>
-                            </div>
-                        ))}
+                                            <MDBCardText>Company ID: {args.companyId.toNumber()}</MDBCardText>
+                                            <MDBCardText>Name: {args.name}</MDBCardText>
+                                            <MDBCardText>Adresse: {args.sender}</MDBCardText>
+                                        </>
+                                    }
+                                    <MDBBtn href={`https://ropsten.etherscan.io/tx/${transactionHash}`} target="_blank">
+                                        Check in block explorer
+                                    </MDBBtn>
+                                </MDBCardBody>
+                                <MDBCardFooter>Blocknumber: {blockNumber}</MDBCardFooter>
+                            </MDBCard>
+                        </div>
+                    ))}
                 </MDBRow>
             </MDBContainer>
         </>

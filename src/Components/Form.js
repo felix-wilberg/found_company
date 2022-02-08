@@ -27,10 +27,10 @@ const Form = () => {
         try {
             setIsLoading(true);
             await contractSigner.found(data.get("companyName"), data.get("foundingCapital"), data.get("amountShareholders"));
-            contractSigner.on("Founded", (companyId,name,foundingCapitalGoal,memberAmount) => {
+            contractSigner.on("Founded", (companyId,companyName,foundingCapitalGoal,memberAmount, event) => {
                 setIsLoading(false);
-                console.log({companyId: companyId.toString(),name: name.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber()});
-                setCompanyFounded({companyId: companyId.toString(),name: name.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber()});
+                console.log({companyId: companyId.toString(),companyName: companyName.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(), memberAmount: memberAmount.toNumber(), txHash: event.transactionHash});
+                setCompanyFounded({companyId: companyId.toString(),companyName: companyName.toString(),foundingCapitalGoal: foundingCapitalGoal.toString(),memberAmount: memberAmount.toNumber(), txHash: event.transactionHash});
                 return () => {
                     contractSigner.removeAllListeners("Founded");
                 }})

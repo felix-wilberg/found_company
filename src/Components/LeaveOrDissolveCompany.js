@@ -27,7 +27,7 @@ const LeaveOrDissolveCompany = () => {
             setIsLoadingDissolve(true);
             await contractSigner.dissolveCompany(dissolveCompanyInput.get("companyIdDissolve"));
             contractSigner.on("Dissolved", (companyId,companyName, addressSender, event) => {
-                setIsLoadingDissolve(false)
+                setIsLoadingDissolve(false);
                 setIsDissolved({
                     companyId: companyId.toNumber(),
                     companyName: companyName.toString(),
@@ -40,6 +40,7 @@ const LeaveOrDissolveCompany = () => {
             })
         }
         catch (error) {
+            setIsLoadingDissolve(false);
             alert(error);
         }
     };
@@ -57,9 +58,9 @@ const LeaveOrDissolveCompany = () => {
             setIsLoadingLeave(true);
             await contractSigner.leaveCompany(leaveCompanyInput.get("companyIdLeave"));
             contractSigner.on("Left", (companyId,companyName, addressSender, event) => {
-                setIsLoadingLeave(false)
+                setIsLoadingLeave(false);
                 setIsLeft({
-                    companyId: companyId.toNumber(),
+                    companyId: companyId.toString(),
                     companyName: companyName.toString(),
                     addressSender: addressSender.toString(),
                     txHash: event.transactionHash
@@ -70,6 +71,7 @@ const LeaveOrDissolveCompany = () => {
             })
         }
         catch (error) {
+            setIsLoadingLeave(false);
             alert(error);
         }
     };

@@ -27,11 +27,11 @@ const ContractOverview = () => {
         const getCompany = new FormData(e.target);
         //try to get all information based on the companyId, in case no company exists throw the error
         try{
-            const companyName = await contractProvider.getMyCompanyById(getCompany.get("companyId-2"));
+            const companyName = await contractProvider.getCompanyById(getCompany.get("companyId-2"));
             useStore.setState({companyName: companyName});
             const companyBalance = await contractProvider.getCompanyBalanceById(getCompany.get("companyId-2"));
             useStore.setState({companyBalance: companyBalance.toString()});
-            const companyMembers = [] = await contractProvider.getMembers(getCompany.get("companyId-2"));
+            const companyMembers = [] = await contractProvider.getMembersById(getCompany.get("companyId-2"));
             useStore.setState({companyMembers: companyMembers});
         } catch (error) {
             alert(error);
@@ -52,9 +52,9 @@ const ContractOverview = () => {
         try {
             setIsLoading(true);
             await contractSigner.payShare(share.get("companyId"), {value: share.get("amountToPay")});
-            contractSigner.on("Received", (value,addressSender, event) => {
+            contractSigner.on("Received", (value,addressSender,companyId, event) => {
                 setIsLoading(false)
-                setIsReceived({value: value.toNumber(), addressSender: addressSender.toString(), txHash: event.transactionHash})
+                setIsReceived({value: value.toNumber(), addressSender: addressSender.toString(), companyId: companyId.toNumber(), txHash: event.transactionHash})
                 return () => {
                     contractProvider.removeAllListeners("Received");
                 }
@@ -135,10 +135,11 @@ const ContractOverview = () => {
                     </MDBCol>
 
                     <MDBCol size='5'>
-                        <div>Status</div>
-                        <MDBCheckbox name='disabledCheck' value='' id='flexCheckDisabled' checked disabled label='unterzeichnet' />
-                        <MDBCheckbox name='disabledCheck' value='' id='flexCheckCheckedDisabled' defaultChecked disabled label='in Bearbeitung' />
-                        <br/>
+                        {/*<div>Status</div>*/}
+                        {/*<MDBCheckbox name='disabledCheck' value='' id='flexCheckDisabled' checked disabled label='unterzeichnet' />*/}
+                        {/*<MDBCheckbox name='disabledCheck' value='' id='flexCheckCheckedDisabled' defaultChecked disabled label='in Bearbeitung' />*/}
+                        {/*<br/>*/}
+                        <div>Einzahlung</div>
                         <form onSubmit={payShare}>
                             <MDBInput className='mb-3' label='Wei einzahlen' placeholder="Wei" name="amountToPay" type='number'  />
                             <MDBInput className='mb-3' label='Company ID' placeholder="Company ID" name="companyId" type='number'  />
