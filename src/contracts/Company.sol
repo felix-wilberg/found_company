@@ -13,6 +13,7 @@ contract Company {
         governance = msg.sender;
     }
 
+
     ///////////////////////////
     /////////VARIABLES/////////
     ///////////////////////////
@@ -25,7 +26,7 @@ contract Company {
     // neded because it is not possible to create a replaceArray in memory
     // it is used in function removeFromMemberAddresses() to remove an address from a companyAddress Array
     address[] private replaceArray;
-
+    string[] private replaceArrayCompany;
 
     //every Member of a company is a shareholder
     // a member consists of address, amount of coins investested and boolean for polling if company should be dissolved
@@ -35,7 +36,6 @@ contract Company {
         uint256 companyId;
         bool wantDissolveCompany;
     }
-
 
 
     ///////////////////////////
@@ -94,12 +94,14 @@ contract Company {
         return companyId;
     }
 
+
     function createMember(address newAddress , uint256 companyId) internal {
         addressMember[newAddress].member = newAddress;
         addressMember[newAddress].companyId = companyId;
         memberAddresses[companyId].push(newAddress);
         memberOfCertainCompany[companyId][newAddress] = true;
     }
+
 
     function payShare(uint256 companyId) external payable {
         // external means less gas fees
@@ -140,6 +142,7 @@ contract Company {
         emit Left(companyId, names[companyId], msg.sender);
     }
 
+
     //internal function to calculate the return amount
     function calcReturnAmount(address returnAddress, uint256 companyId) internal view returns(uint256){
         uint256 returnMoney = 0;
@@ -151,9 +154,11 @@ contract Company {
         return returnMoney;
     }
 
+
     //internal function to remove the address from mapping array
     function removeFromMemberAddresses(uint256 companyId, address removeAddress) internal {
         //search position of address in array
+        delete replaceArray ;
         for(uint i = 0; i <  memberAddresses[companyId].length; i++) {
             if (memberAddresses[companyId][i] != removeAddress){
                 replaceArray.push(memberAddresses[companyId][i]);
@@ -162,11 +167,11 @@ contract Company {
         memberAddresses[companyId] = replaceArray;
     }
 
+
     //transfer function
     function transfer(address payable to, uint256 amount) internal {
         to.transfer(amount);
     }
-
 
 
     //every of the members need to run this function
@@ -175,10 +180,7 @@ contract Company {
         require(memberOfCertainCompany[companyId][msg.sender] = true, 'Address is not member of the company.');
         string memory companyName = names[companyId];
 
-        //ob msg.sender ist der letzte
-        // wenn ja, dann überweisen
-        // wenn nein, wantDissolveCompany für member auf true
-
+        //check, if address which runs this function is the last one to give permission to solve the company
         if (addressMember[msg.sender].wantDissolveCompany == false){
             addressMember[msg.sender].wantDissolveCompany = true;
             amountWantDissolveCompany[companyId]++;
@@ -213,13 +215,22 @@ contract Company {
             names[companyId] = '';
             foundingCapitalGoal[companyId] = 0;
             payedCapital[companyId] = 0;
+
+            //delete company from nameRegister
+            delete replaceArrayCompany ;
+            for(uint k = 0; i <  company.length; i++) {
+                if ((keccak256(abi.encodePacked((company[k]))) != keccak256(abi.encodePacked((names[companyId]))))){
+                    replaceArrayCompany.push(company[k]);
+                }
+            }
+            company = replaceArrayCompany;
         }
+        memberAddresses[companyId] = replaceArray;
 
         emit Dissolved(companyId, companyName, msg.sender);
-
     }
 
-    //returns memberAddresses
+    //returns memberAddresses based on companyId
     function getMembersById(uint256 companyId) external view returns  (address[] memory) {
         require(companyExists[names[companyId]] == true, "no company with this ID");
         return(memberAddresses[companyId]);
@@ -229,16 +240,16 @@ contract Company {
         return company;
     }
 
+    //returns companyName based on companyId
     function getCompanyById(uint256 companyId) external view returns (string memory) {
         require(companyExists[names[companyId]] == true, "no company with this ID");
         return names[companyId];
     }
+
+    //returns companyBalance based on companyId
     function getCompanyBalanceById(uint256 companyId) external view returns (uint256) {
         require(companyExists[names[companyId]] == true, "no company with this ID");
         return payedCapital[companyId];
     }
 
-    function getBalanceOfContract() external view returns (uint256)  {
-        return address(this).balance;
-    }
 }
