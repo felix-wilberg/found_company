@@ -22,6 +22,11 @@ contract Company {
     string[] public company;
     string public name = "Found your own company";
 
+    // neded because it is not possible to create a replaceArray in memory
+    // it is used in function removeFromMemberAddresses() to remove an address from a companyAddress Array
+    address[] private replaceArray;
+
+
     //every Member of a company is a shareholder
     // a member consists of address, amount of coins investested and boolean for polling if company should be dissolved
     struct Member{
@@ -39,9 +44,9 @@ contract Company {
 
     //company and member specific
     mapping(address => Member) internal addressMember; //map address to the member
-    mapping(uint256 => address[]) internal memberAddresses;
-    mapping(uint256 => uint256) internal memberAmount; // map amount company id to amount of members
-    mapping(uint256 => uint256) internal amountWantDissolveCompany; //map company id to amount of members who want to dissolve the company
+    mapping(uint256 => address[]) internal memberAddresses; //map companyId to list of memberAddresses
+    mapping(uint256 => uint256) internal memberAmount; // map amount companyId to amount of members
+    mapping(uint256 => uint256) internal amountWantDissolveCompany; //map companyId to amount of members who want to dissolve the company
 
     //memberregister
     mapping(uint256 => mapping(address => bool)) memberOfCertainCompany; //member of a certain company
@@ -59,10 +64,10 @@ contract Company {
     /////////EVENTS////////////
     ///////////////////////////
 
-    event Received(uint256 value, address sender, uint256 companyId);
-    event Founded(uint256 companyId, string name, uint256 foundingCapitalGoal, uint256 memberAmount);
-    event Dissolved(uint256 companyId, string name, address sender);
-    event Left(uint256 companyId, string name, address sender);
+    event Received(uint256 value, address sender, uint256 companyId); //event for confirmation of paying a share to company
+    event Founded(uint256 companyId, string name, uint256 foundingCapitalGoal, uint256 memberAmount); // event of confirmation of a founded company
+    event Dissolved(uint256 companyId, string name, address sender); //event of confirmation of a dissolved company
+    event Left(uint256 companyId, string name, address sender); //event of confirmation that a user left a company
 
 
     ///////////////////////////
@@ -118,13 +123,12 @@ contract Company {
         require(memberOfCertainCompany[companyId][msg.sender] = true, 'Address is not member of the company.');
         //check, if company has more than one member
         require(memberAddresses[companyId].length >1, 'Company just has one member. Please dissolve Company.');
-        //evtl. dissokve automatisch aufrufen
+        //if member did not pay any share, one can not leave the company
         require(addressMember[msg.sender].amount > 0, 'No shares payed.');
+
         //calculate the retun amount
         uint256 returnMoney = calcReturnAmount(msg.sender, companyId);
-
         //if payed amount is smaller than part of payedcapital --> return amount payed, else return part of capital
-
         payedCapital[companyId] = payedCapital[companyId] - returnMoney;
         transfer(payable(msg.sender), returnMoney); //msg.sender needs to be casted to payable to receive ETH
 
@@ -149,16 +153,13 @@ contract Company {
 
     //internal function to remove the address from mapping array
     function removeFromMemberAddresses(uint256 companyId, address removeAddress) internal {
-        uint i = 0;
         //search position of address in array
-        while (memberAddresses[companyId][i] != removeAddress) {
-            i++;
+        for(uint i = 0; i <  memberAddresses[companyId].length; i++) {
+            if (memberAddresses[companyId][i] != removeAddress){
+                replaceArray.push(memberAddresses[companyId][i]);
+            }
         }
-        //replace deleted address by decrementing and moving all following addresses by 1
-        while (i<memberAddresses[companyId].length-1) {
-            memberAddresses[companyId][i] = memberAddresses[companyId][i+1];
-            i++;
-        }
+        memberAddresses[companyId] = replaceArray;
     }
 
     //transfer function
@@ -178,7 +179,7 @@ contract Company {
         // wenn ja, dann überweisen
         // wenn nein, wantDissolveCompany für member auf true
 
-        if (addressMember[msg.sender].wantDissolveCompany = false){
+        if (addressMember[msg.sender].wantDissolveCompany == false){
             addressMember[msg.sender].wantDissolveCompany = true;
             amountWantDissolveCompany[companyId]++;
         }
@@ -199,6 +200,7 @@ contract Company {
                 deleteMember = memberAddresses[companyId][j];
                 delete addressMember[deleteMember];
                 memberOfCertainCompany[companyId][deleteMember] = false;
+                j++;
             }
             //delete all members of the one company
             delete memberAddresses[companyId];
@@ -212,6 +214,7 @@ contract Company {
             foundingCapitalGoal[companyId] = 0;
             payedCapital[companyId] = 0;
         }
+
         emit Dissolved(companyId, companyName, msg.sender);
 
     }
@@ -233,5 +236,9 @@ contract Company {
     function getCompanyBalanceById(uint256 companyId) external view returns (uint256) {
         require(companyExists[names[companyId]] == true, "no company with this ID");
         return payedCapital[companyId];
+    }
+
+    function getBalanceOfContract() external view returns (uint256)  {
+        return address(this).balance;
     }
 }
