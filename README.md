@@ -1,24 +1,19 @@
-# found a company on the blockchain
+# Found A Company On The Blockchain
 
-## install git
+## Introduction
+This project was built during the course Blockchain and Smart Contracts at THWS Würzburg. We build a prototype to showcase all important
+functions of the process of founding a company. That includes the following functions:
+- founding the company
+- pay a share
+- leave the company
+- dissolve a company
+- show the members
 
-aktuellen Änderungen pullen ``git pull``
 
-sehen wo änderungen gemacht wurden ``git status``
+## Prerequisites
 
-alle geänderten oder hinzugefügten Datein adden ``git add .``
-
-Änderungen mit Nachricht committen ``git comit -m 'changed file XY and file YX``
-
-Datei hochgeladen aka in Repo reingeladen ``git push``
-
-## install all packages
-
-install npm
-
-install all packages with ``npm i``
-
-start development server  ``npm start``
+- install all packages with ``npm i``
+- start development server  ``npm start``
 
 ## use of DApp
 This app uses the Ropsten testnet. You need to get some ether from https://faucet.egorfine.com/
