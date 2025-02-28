@@ -44,7 +44,7 @@ const Navbar = () => {
                                 </MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem> 
-                                <MDBNavbarLink id='NavLink' href='/#FoundCompany'>Gründen</MDBNavbarLink>
+                                <MDBNavbarLink id='NavLink' href='/#FoundCompany' >Gründen</MDBNavbarLink>
                             </MDBNavbarItem>
                             <MDBNavbarItem>
                                 <MDBNavbarLink id='NavLink' href='/#Overview'>Übersicht</MDBNavbarLink>

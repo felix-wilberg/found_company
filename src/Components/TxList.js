@@ -62,7 +62,7 @@ const TxList = () => {
                                         <MDBCardText>Company Name: {args.name}</MDBCardText>
                                         <MDBCardText>Company ID: {args.companyId.toNumber()}</MDBCardText>
                                         <MDBCardText>Member amount: {args.memberAmount.toNumber()}</MDBCardText>
-                                        <MDBCardText>Member CapitalGoal: {args.foundingCapitalGoal.toNumber()} Wei</MDBCardText>
+                                        <MDBCardText>Member CapitalGoal: {args.foundingCapitalGoal.toString()} Wei</MDBCardText>
                                     </> : event.toString() === "Received" ? <>
                                         <MDBCardText>Company ID: {args.companyId.toNumber()}</MDBCardText>
                                         <MDBCardText>Amount: {args.value.toNumber()} Wei</MDBCardText>

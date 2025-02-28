@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { HeroSection, Navbar, Main } from "./index";
-import { ethers } from "ethers";
+
 import create from "zustand";
 import { contractABI, contractAddress } from "../utils/constants";
 import "./App.css";
